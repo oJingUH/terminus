@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Runtime state (regenerated per player)
+stats.json
+
+# GUI screenshots (regenerated)
+preview/
+
+# OS / editor cruft
+.DS_Store
+*.swp
+*~

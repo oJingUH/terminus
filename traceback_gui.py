@@ -177,12 +177,30 @@ class TermView(QGraphicsView):
     def _apply(self):
         # A projective transform: rotate around Z, then tilt with perspective
         # coefficients in the third column so panels recede like a 3D terminal.
+        # The rotation/tilt is applied about the scene center (so content stays
+        # in frame instead of swinging off the top-left origin), then the whole
+        # scene is scaled to fit the current viewport.
         import math
         rad = math.radians(self._angle)
         c, s = math.cos(rad), math.sin(rad)
-        # m13/m23 give a perspective shear; scale so the scene stays visible.
-        t = QTransform(c, s, -0.0006, -s, c, -0.0004, 0, 0, 1)
-        t.translate(self._parallax_x, self._parallax_y)
+        cx = WIDTH / 2.0
+        cy = HEIGHT / 2.0
+        # m13/m23 give a perspective shear; kept small so text never clips.
+        pose = QTransform(c, s, -0.0003, -s, c, -0.0002, 0, 0, 1)
+        vw = self.viewport().width() or WIDTH
+        vh = self.viewport().height() or HEIGHT
+        scale = min(vw / float(WIDTH), vh / float(HEIGHT))
+        ox = (vw - WIDTH * scale) / 2.0
+        oy = (vh - HEIGHT * scale) / 2.0
+        # QTransform's * composes in reversed order (the right operand acts on
+        # the point first), so write the point-space chain back to front:
+        # parallax -> recenter -> pose -> uncenter -> fit-scale -> fit-offset.
+        t = (QTransform.fromTranslate(self._parallax_x, self._parallax_y)
+             * QTransform.fromTranslate(-cx, -cy)
+             * pose
+             * QTransform.fromTranslate(cx, cy)
+             * QTransform.fromScale(scale, scale)
+             * QTransform.fromTranslate(ox, oy))
         self.setTransform(t)
 
     def mouseMoveEvent(self, event):
@@ -243,6 +261,7 @@ class Game:
         self.scene.update()
         self.view.viewport().update()
         QApplication.processEvents()
+        self.view._apply()          # refresh transform against current viewport
         pm = self.view.grab()
         if self.screenshot_dir:
             os.makedirs(self.screenshot_dir, exist_ok=True)
@@ -250,6 +269,11 @@ class Game:
             pm.save(path, "PNG")
             self._shots.append(path)
         return pm
+
+    def resize_window(self, w, h):
+        self.view.resize(w, h)
+        self.view.viewport().resize(w, h)
+        self.view._apply()
 
     def _clear(self):
         for it in list(self.scene.items()):
@@ -412,6 +436,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="TRACEBACK 3D terminal-lure quiz")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--screenshot", default=None, metavar="DIR")
+    ap.add_argument("--size", default=None, metavar="WxH",
+                    help="window size to render screenshots at (e.g. 560x420)")
     ap.add_argument("--seed", type=int, default=None)
     ap.add_argument("--bundle", default=tb.DEFAULT_BUNDLE)
     ap.add_argument("--stats", default=None)
@@ -422,6 +448,14 @@ def main(argv=None):
     bundle = tb.load_bundle(args.bundle)
 
     game = Game(bundle, seed=args.seed, screenshot_dir=args.screenshot)
+
+    if args.size:
+        try:
+            w, h = (int(x) for x in args.size.lower().split("x"))
+        except ValueError:
+            print("invalid --size %r (expected WxH)" % args.size, file=sys.stderr)
+            return 2
+        game.resize_window(w, h)
 
     if args.selftest:
         shots = game.selftest()

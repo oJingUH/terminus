@@ -81,35 +81,17 @@ the `CompTIA/Abbreviations/` notes and prefixing Network+/Security+ citations.
 
 Working end-to-end:
 
-  * `build_bundle.py` merges 2,488 questions (a+1=522, a+2=500, net=588,
-    sec=878) and three drill tables (ports=22, crypto=44, acronyms=615).
+  * `build_bundle.py` merges 2,486 questions (a+1=522, a+2=500, net=586,
+    sec=878) and three drill tables (ports=22, crypto=44, acronyms=614).
   * Every `traceback_cli.py` self-test exits 0.
   * `verify_negative_controls.py` exits 0 — the verifier rejects all four
     mutation shapes (answer-index flip, verify-token, source-section,
     drill-entry).
   * The GUI renders offscreen and writes non-empty PNGs (boot, question,
     ACCESS GRANTED / TRACE DETECTED, achievements).
-
-Known issue — 8 stale acronym entries in the read-only source:
-
-`verify_bundle.py` correctly flags 8 entries in
-`comptia-acronyms/acronyms.json` whose `verify` expansion no longer matches the
-authoritative vault notes (CompTIA objective Document Version 6.0). The source
-table was built against an older objective revision; the vault's own
-`CompTIA/Abbreviations/Cross-Exam Acronym Conflicts.md` documents this drift
-(its "Currency note" flags the EULA/RFID/SSL revision changes). The eight are:
-
-  * `apu` — "Accelerated Processing Unit" vs vault "Audio Processing Unit"
-  * `bcp` — "Business Continuity Plan" vs "Business Continuity Planning"
-  * `eula_1` — "End User License Agreement" vs "End-user License Agreement"
-  * `igp` — "Interior Gateway Protocol" vs "Internal Gateway Protocol"
-  * `rfid` — "Radio Frequency Identification" vs "Radio-Frequency Identification"
-  * `rj` — "RJ" / "Registered Jack" vs vault "RJ11"/"RJ45" (Registered Jack Function)
-  * `vtp` — "VLAN Trunking Protocol" vs "VLAN Trunk Protocol"
-
-Because the source projects and the vault are read-only, these are surfaced by
-the verifier (as failures) rather than silently corrected. The questions bank
-and the ports/crypto drill tables verify clean against the vault.
+  * The acronym bank is current with the vault notes as of the N10-009
+    Document Version 6.0 / SY0-701 Document Version 7.0 revisions (drift
+    corrected in comptia-acronyms 57debac).
 
 ## License
 

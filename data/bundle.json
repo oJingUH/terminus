@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T21:17:48.643681+00:00",
+  "generated_at": "2026-10-07T17:02:58.465846+00:00",
   "questions": [
     {
       "id": "2fa_a2e::sec",
@@ -892,8 +892,8 @@
       "options": [
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control",
-        "Enterprise Resource Planning"
+        "Business Continuity Planning",
+        "Discretionary Access Control"
       ],
       "answer": 0,
       "answer_text": "Advanced Encryption Standard",
@@ -923,8 +923,8 @@
       "options": [
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control",
-        "Enterprise Resource Planning"
+        "Business Continuity Planning",
+        "Discretionary Access Control"
       ],
       "answer": 0,
       "answer_text": "Advanced Encryption Standard",
@@ -954,8 +954,8 @@
       "options": [
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control",
-        "Enterprise Resource Planning"
+        "Business Continuity Planning",
+        "Discretionary Access Control"
       ],
       "answer": 0,
       "answer_text": "Advanced Encryption Standard",
@@ -985,8 +985,8 @@
       "options": [
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control",
-        "Enterprise Resource Planning"
+        "Business Continuity Planning",
+        "Discretionary Access Control"
       ],
       "answer": 0,
       "answer_text": "Advanced Encryption Standard",
@@ -1423,9 +1423,9 @@
       "question": "What does AIS stand for?",
       "options": [
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
         "Address Resolution Protocol",
-        "Business Partners Agreement"
+        "Business Partners Agreement",
+        "Certificate Revocation List"
       ],
       "answer": 0,
       "answer_text": "Automated Indicator Sharing",
@@ -2422,14 +2422,14 @@
       "type": "mc",
       "question": "What does APU stand for?",
       "options": [
-        "Accelerated Processing Unit",
-        "Automated Indicator Sharing",
-        "Address Resolution Protocol",
-        "Business Partners Agreement"
+        "Audio Processing Unit",
+        "Acceptable Use Policy",
+        "Cipher Block Chaining",
+        "Disk Operating System"
       ],
       "answer": 0,
-      "answer_text": "Accelerated Processing Unit",
-      "explanation": "APU stands for Accelerated Processing Unit.",
+      "answer_text": "Audio Processing Unit",
+      "explanation": "APU stands for Audio Processing Unit.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -2437,7 +2437,7 @@
       },
       "verify": [
         "APU",
-        "Accelerated Processing Unit"
+        "Audio Processing Unit"
       ],
       "exams": [
         "netplus"
@@ -2448,7 +2448,7 @@
     {
       "id": "apu_e2a::net",
       "type": "mc",
-      "question": "Which abbreviation stands for 'Accelerated Processing Unit'?",
+      "question": "Which abbreviation stands for 'Audio Processing Unit'?",
       "options": [
         "APU",
         "AAA",
@@ -2457,7 +2457,7 @@
       ],
       "answer": 0,
       "answer_text": "APU",
-      "explanation": "APU is the abbreviation for Accelerated Processing Unit.",
+      "explanation": "APU is the abbreviation for Audio Processing Unit.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -2465,7 +2465,7 @@
       },
       "verify": [
         "APU",
-        "Accelerated Processing Unit"
+        "Audio Processing Unit"
       ],
       "exams": [
         "netplus"
@@ -2652,8 +2652,8 @@
       "options": [
         "Address Resolution Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Business Partners Agreement"
+        "Business Partners Agreement",
+        "Certificate Revocation List"
       ],
       "answer": 0,
       "answer_text": "Address Resolution Protocol",
@@ -2683,8 +2683,8 @@
       "options": [
         "Address Resolution Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Business Partners Agreement"
+        "Business Partners Agreement",
+        "Certificate Revocation List"
       ],
       "answer": 0,
       "answer_text": "Address Resolution Protocol",
@@ -2714,8 +2714,8 @@
       "options": [
         "Address Resolution Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Business Partners Agreement"
+        "Business Partners Agreement",
+        "Certificate Revocation List"
       ],
       "answer": 0,
       "answer_text": "Address Resolution Protocol",
@@ -2745,8 +2745,8 @@
       "options": [
         "Address Resolution Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Business Partners Agreement"
+        "Business Partners Agreement",
+        "Certificate Revocation List"
       ],
       "answer": 0,
       "answer_text": "Address Resolution Protocol",
@@ -3244,8 +3244,8 @@
       "options": [
         "Advanced Technology Extended",
         "Advanced Encryption Standard",
-        "Discretionary Access Control",
-        "Enterprise Resource Planning"
+        "Business Continuity Planning",
+        "Discretionary Access Control"
       ],
       "answer": 0,
       "answer_text": "Advanced Technology Extended",
@@ -3273,8 +3273,8 @@
       "options": [
         "Advanced Technology Extended",
         "Advanced Encryption Standard",
-        "Discretionary Access Control",
-        "Enterprise Resource Planning"
+        "Business Continuity Planning",
+        "Discretionary Access Control"
       ],
       "answer": 0,
       "answer_text": "Advanced Technology Extended",
@@ -3359,9 +3359,9 @@
       "question": "What does AUP stand for?",
       "options": [
         "Acceptable Use Policy",
+        "Audio Processing Unit",
         "Cipher Block Chaining",
-        "Disk Operating System",
-        "Error Correcting Code"
+        "Disk Operating System"
       ],
       "answer": 0,
       "answer_text": "Acceptable Use Policy",
@@ -3390,9 +3390,9 @@
       "question": "What does AUP stand for?",
       "options": [
         "Acceptable Use Policy",
+        "Audio Processing Unit",
         "Cipher Block Chaining",
-        "Disk Operating System",
-        "Error Correcting Code"
+        "Disk Operating System"
       ],
       "answer": 0,
       "answer_text": "Acceptable Use Policy",
@@ -3421,9 +3421,9 @@
       "question": "What does AUP stand for?",
       "options": [
         "Acceptable Use Policy",
+        "Audio Processing Unit",
         "Cipher Block Chaining",
-        "Disk Operating System",
-        "Error Correcting Code"
+        "Disk Operating System"
       ],
       "answer": 0,
       "answer_text": "Acceptable Use Policy",
@@ -3452,9 +3452,9 @@
       "question": "What does AUP stand for?",
       "options": [
         "Acceptable Use Policy",
+        "Audio Processing Unit",
         "Cipher Block Chaining",
-        "Disk Operating System",
-        "Error Correcting Code"
+        "Disk Operating System"
       ],
       "answer": 0,
       "answer_text": "Acceptable Use Policy",
@@ -3842,14 +3842,14 @@
       "type": "mc",
       "question": "What does BCP stand for?",
       "options": [
-        "Business Continuity Plan",
-        "Business Impact Analysis",
-        "Corrective Action Report",
-        "Content Delivery Network"
+        "Business Continuity Planning",
+        "Advanced Encryption Standard",
+        "Advanced Technology Extended",
+        "Discretionary Access Control"
       ],
       "answer": 0,
-      "answer_text": "Business Continuity Plan",
-      "explanation": "BCP stands for Business Continuity Plan.",
+      "answer_text": "Business Continuity Planning",
+      "explanation": "BCP stands for Business Continuity Planning.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -3857,7 +3857,7 @@
       },
       "verify": [
         "BCP",
-        "Business Continuity Plan"
+        "Business Continuity Planning"
       ],
       "exams": [
         "netplus",
@@ -3871,14 +3871,14 @@
       "type": "mc",
       "question": "What does BCP stand for?",
       "options": [
-        "Business Continuity Plan",
-        "Business Impact Analysis",
-        "Corrective Action Report",
-        "Content Delivery Network"
+        "Business Continuity Planning",
+        "Advanced Encryption Standard",
+        "Advanced Technology Extended",
+        "Discretionary Access Control"
       ],
       "answer": 0,
-      "answer_text": "Business Continuity Plan",
-      "explanation": "BCP stands for Business Continuity Plan.",
+      "answer_text": "Business Continuity Planning",
+      "explanation": "BCP stands for Business Continuity Planning.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -3886,7 +3886,7 @@
       },
       "verify": [
         "BCP",
-        "Business Continuity Plan"
+        "Business Continuity Planning"
       ],
       "exams": [
         "netplus",
@@ -3898,7 +3898,7 @@
     {
       "id": "bcp_e2a::net",
       "type": "mc",
-      "question": "Which abbreviation stands for 'Business Continuity Plan'?",
+      "question": "Which abbreviation stands for 'Business Continuity Planning'?",
       "options": [
         "BCP",
         "AAA",
@@ -3907,7 +3907,7 @@
       ],
       "answer": 0,
       "answer_text": "BCP",
-      "explanation": "BCP is the abbreviation for Business Continuity Plan.",
+      "explanation": "BCP is the abbreviation for Business Continuity Planning.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -3915,7 +3915,7 @@
       },
       "verify": [
         "BCP",
-        "Business Continuity Plan"
+        "Business Continuity Planning"
       ],
       "exams": [
         "netplus",
@@ -3927,7 +3927,7 @@
     {
       "id": "bcp_e2a::sec",
       "type": "mc",
-      "question": "Which abbreviation stands for 'Business Continuity Plan'?",
+      "question": "Which abbreviation stands for 'Business Continuity Planning'?",
       "options": [
         "BCP",
         "AAA",
@@ -3936,7 +3936,7 @@
       ],
       "answer": 0,
       "answer_text": "BCP",
-      "explanation": "BCP is the abbreviation for Business Continuity Plan.",
+      "explanation": "BCP is the abbreviation for Business Continuity Planning.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -3944,7 +3944,7 @@
       },
       "verify": [
         "BCP",
-        "Business Continuity Plan"
+        "Business Continuity Planning"
       ],
       "exams": [
         "netplus",
@@ -4075,9 +4075,9 @@
       "question": "What does BIA stand for?",
       "options": [
         "Business Impact Analysis",
-        "Business Continuity Plan",
         "Corrective Action Report",
-        "Content Delivery Network"
+        "Content Delivery Network",
+        "Cisco Discovery Protocol"
       ],
       "answer": 0,
       "answer_text": "Business Impact Analysis",
@@ -4368,8 +4368,8 @@
       "options": [
         "Business Partners Agreement",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Certificate Revocation List"
       ],
       "answer": 0,
       "answer_text": "Business Partners Agreement",
@@ -4425,7 +4425,7 @@
         "Bridge Protocol Data Unit",
         "Dual Inline Memory Module",
         "Mean Time Between Failure",
-        "End User License Agreement"
+        "Material Safety Data Sheet"
       ],
       "answer": 0,
       "answer_text": "Bridge Protocol Data Unit",
@@ -4454,7 +4454,7 @@
         "Bridge Protocol Data Unit",
         "Dual Inline Memory Module",
         "Mean Time Between Failure",
-        "End User License Agreement"
+        "Material Safety Data Sheet"
       ],
       "answer": 0,
       "answer_text": "Bridge Protocol Data Unit",
@@ -5547,9 +5547,9 @@
       "question": "What does CAR stand for?",
       "options": [
         "Corrective Action Report",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Content Delivery Network"
+        "Content Delivery Network",
+        "Cisco Discovery Protocol"
       ],
       "answer": 0,
       "answer_text": "Corrective Action Report",
@@ -5659,9 +5659,9 @@
       "question": "What does CBC stand for?",
       "options": [
         "Cipher Block Chaining",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Disk Operating System",
-        "Error Correcting Code"
+        "Disk Operating System"
       ],
       "answer": 0,
       "answer_text": "Cipher Block Chaining",
@@ -6175,9 +6175,9 @@
       "question": "What does CDN stand for?",
       "options": [
         "Content Delivery Network",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Cisco Discovery Protocol"
       ],
       "answer": 0,
       "answer_text": "Content Delivery Network",
@@ -6231,9 +6231,9 @@
       "question": "What does CDP stand for?",
       "options": [
         "Cisco Discovery Protocol",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Cisco Discovery Protocol",
@@ -7499,9 +7499,9 @@
       "question": "What does COBO stand for?",
       "options": [
         "Corporate-owned, Business-only",
+        "Radio-Frequency Identification",
         "Distributed Denial-of-service",
-        "Hardware-assisted Virtualization",
-        "Electromagnetic Interference"
+        "Hardware-assisted Virtualization"
       ],
       "answer": 0,
       "answer_text": "Corporate-owned, Business-only",
@@ -8016,8 +8016,8 @@
       "options": [
         "Certificate Revocation List",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Certificate Revocation List",
@@ -8046,8 +8046,8 @@
       "options": [
         "Certificate Revocation List",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Certificate Revocation List",
@@ -8076,8 +8076,8 @@
       "options": [
         "Certificate Revocation List",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Certificate Revocation List",
@@ -8308,8 +8308,8 @@
       "options": [
         "Certificate Signing Request",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Certificate Signing Request",
@@ -8531,9 +8531,9 @@
       "question": "What does CTO stand for?",
       "options": [
         "Chief Technology Officer",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Chief Technology Officer",
@@ -8929,7 +8929,7 @@
         "Discretionary Access Control",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Enterprise Resource Planning"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Discretionary Access Control",
@@ -9327,9 +9327,9 @@
       "question": "What does DCI stand for?",
       "options": [
         "Data Center Interconnect",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Data Center Interconnect",
@@ -9565,7 +9565,7 @@
         "Distributed Denial-of-service",
         "Corporate-owned, Business-only",
         "Electromagnetic Interference",
-        "Radio-Frequency Interference"
+        "Radio-Frequency Identification"
       ],
       "answer": 0,
       "answer_text": "Distributed Denial-of-service",
@@ -9792,8 +9792,8 @@
       "options": [
         "Digital Encryption Standard",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Digital Encryption Standard",
@@ -10153,7 +10153,7 @@
         "Dual Inline Memory Module",
         "Bridge Protocol Data Unit",
         "Mean Time Between Failure",
-        "End User License Agreement"
+        "Material Safety Data Sheet"
       ],
       "answer": 0,
       "answer_text": "Dual Inline Memory Module",
@@ -10182,7 +10182,7 @@
         "Dual Inline Memory Module",
         "Bridge Protocol Data Unit",
         "Mean Time Between Failure",
-        "End User License Agreement"
+        "Material Safety Data Sheet"
       ],
       "answer": 0,
       "answer_text": "Dual Inline Memory Module",
@@ -11383,9 +11383,9 @@
       "question": "What does DOS stand for?",
       "options": [
         "Disk Operating System",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Error Correcting Code"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Disk Operating System",
@@ -11961,7 +11961,7 @@
         "Dynamic Random-Access Memory",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Dynamic Random-Access Memory",
@@ -11990,7 +11990,7 @@
         "Dynamic Random-Access Memory",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Dynamic Random-Access Memory",
@@ -12248,8 +12248,8 @@
       "options": [
         "Digital Signature Algorithm",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Digital Signature Algorithm",
@@ -12483,9 +12483,9 @@
       "question": "What does DVI stand for?",
       "options": [
         "Digital Visual Interface",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Digital Visual Interface",
@@ -12512,9 +12512,9 @@
       "question": "What does DVI stand for?",
       "options": [
         "Digital Visual Interface",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Digital Visual Interface",
@@ -13008,8 +13008,8 @@
       "options": [
         "Elliptic Curve Cryptography",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Elliptic Curve Cryptography",
@@ -13063,9 +13063,9 @@
       "question": "What does ECC stand for?",
       "options": [
         "Error Correcting Code",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Error Correcting Code",
@@ -13092,9 +13092,9 @@
       "question": "What does ECC stand for?",
       "options": [
         "Error Correcting Code",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Error Correcting Code",
@@ -13347,9 +13347,9 @@
       "question": "What does EFS stand for?",
       "options": [
         "Encrypted File System",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Encrypted File System",
@@ -13691,9 +13691,9 @@
       "question": "What does eMMC stand for?",
       "options": [
         "Embedded Multimedia Card",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Embedded Multimedia Card",
@@ -13973,7 +13973,7 @@
         "Enterprise Resource Planning",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Enterprise Resource Planning",
@@ -14259,9 +14259,9 @@
       "question": "What does ESN stand for?",
       "options": [
         "Electronic Serial Number",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Electronic Serial Number",
@@ -14482,14 +14482,14 @@
       "type": "mc",
       "question": "What does EULA stand for?",
       "options": [
-        "End User License Agreement",
-        "Material Safety Data Sheet",
-        "Mean Time Between Failures",
-        "New Technology File System"
+        "End-user License Agreement",
+        "Annualized Loss Expectancy",
+        "Advanced Persistent Threat",
+        "Asynchronous Transfer Mode"
       ],
       "answer": 0,
-      "answer_text": "End User License Agreement",
-      "explanation": "EULA stands for End User License Agreement.",
+      "answer_text": "End-user License Agreement",
+      "explanation": "EULA stands for End-user License Agreement.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -14497,7 +14497,7 @@
       },
       "verify": [
         "EULA",
-        "End User License Agreement"
+        "End-user License Agreement"
       ],
       "exams": [
         "netplus",
@@ -14511,14 +14511,14 @@
       "type": "mc",
       "question": "What does EULA stand for?",
       "options": [
-        "End User License Agreement",
-        "Material Safety Data Sheet",
-        "Mean Time Between Failures",
-        "New Technology File System"
+        "End-user License Agreement",
+        "Annualized Loss Expectancy",
+        "Advanced Persistent Threat",
+        "Asynchronous Transfer Mode"
       ],
       "answer": 0,
-      "answer_text": "End User License Agreement",
-      "explanation": "EULA stands for End User License Agreement.",
+      "answer_text": "End-user License Agreement",
+      "explanation": "EULA stands for End-user License Agreement.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -14526,7 +14526,7 @@
       },
       "verify": [
         "EULA",
-        "End User License Agreement"
+        "End-user License Agreement"
       ],
       "exams": [
         "netplus",
@@ -14538,7 +14538,7 @@
     {
       "id": "eula_1_e2a::net",
       "type": "mc",
-      "question": "Which abbreviation stands for 'End User License Agreement'?",
+      "question": "Which abbreviation stands for 'End-user License Agreement'?",
       "options": [
         "EULA",
         "ACPI",
@@ -14547,7 +14547,7 @@
       ],
       "answer": 0,
       "answer_text": "EULA",
-      "explanation": "EULA is the abbreviation for End User License Agreement.",
+      "explanation": "EULA is the abbreviation for End-user License Agreement.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -14555,7 +14555,7 @@
       },
       "verify": [
         "EULA",
-        "End User License Agreement"
+        "End-user License Agreement"
       ],
       "exams": [
         "netplus",
@@ -14567,7 +14567,7 @@
     {
       "id": "eula_1_e2a::sec",
       "type": "mc",
-      "question": "Which abbreviation stands for 'End User License Agreement'?",
+      "question": "Which abbreviation stands for 'End-user License Agreement'?",
       "options": [
         "EULA",
         "ACPI",
@@ -14576,7 +14576,7 @@
       ],
       "answer": 0,
       "answer_text": "EULA",
-      "explanation": "EULA is the abbreviation for End User License Agreement.",
+      "explanation": "EULA is the abbreviation for End-user License Agreement.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -14584,7 +14584,7 @@
       },
       "verify": [
         "EULA",
-        "End User License Agreement"
+        "End-user License Agreement"
       ],
       "exams": [
         "netplus",
@@ -15003,9 +15003,9 @@
       "question": "What does FAT stand for?",
       "options": [
         "File Allocation Table",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "File Allocation Table",
@@ -15032,9 +15032,9 @@
       "question": "What does FAT stand for?",
       "options": [
         "File Allocation Table",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "File Allocation Table",
@@ -17143,9 +17143,9 @@
       "question": "What does GPU stand for?",
       "options": [
         "Graphics Processing Unit",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Graphics Processing Unit",
@@ -17173,9 +17173,9 @@
       "question": "What does GPU stand for?",
       "options": [
         "Graphics Processing Unit",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Graphics Processing Unit",
@@ -17203,9 +17203,9 @@
       "question": "What does GPU stand for?",
       "options": [
         "Graphics Processing Unit",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Graphics Processing Unit",
@@ -17555,9 +17555,9 @@
       "question": "What does GUI stand for?",
       "options": [
         "Graphical User Interface",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Graphical User Interface",
@@ -17585,9 +17585,9 @@
       "question": "What does GUI stand for?",
       "options": [
         "Graphical User Interface",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Graphical User Interface",
@@ -17615,9 +17615,9 @@
       "question": "What does GUI stand for?",
       "options": [
         "Graphical User Interface",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Graphical User Interface",
@@ -18024,8 +18024,8 @@
       "options": [
         "Hardware-assisted Virtualization",
         "Corporate-owned, Business-only",
-        "Distributed Denial-of-service",
-        "Electromagnetic Interference"
+        "Radio-Frequency Identification",
+        "Distributed Denial-of-service"
       ],
       "answer": 0,
       "answer_text": "Hardware-assisted Virtualization",
@@ -18053,8 +18053,8 @@
       "options": [
         "Hardware-assisted Virtualization",
         "Corporate-owned, Business-only",
-        "Distributed Denial-of-service",
-        "Electromagnetic Interference"
+        "Radio-Frequency Identification",
+        "Distributed Denial-of-service"
       ],
       "answer": 0,
       "answer_text": "Hardware-assisted Virtualization",
@@ -18140,8 +18140,8 @@
       "options": [
         "Hardware Compatibility List",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Hardware Compatibility List",
@@ -18169,8 +18169,8 @@
       "options": [
         "Hardware Compatibility List",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Hardware Compatibility List",
@@ -19007,9 +19007,9 @@
       "question": "What does HSM stand for?",
       "options": [
         "Hardware Security Module",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Hardware Security Module",
@@ -19037,9 +19037,9 @@
       "question": "What does HSM stand for?",
       "options": [
         "Hardware Security Module",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Hardware Security Module",
@@ -19067,9 +19067,9 @@
       "question": "What does HSM stand for?",
       "options": [
         "Hardware Security Module",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Hardware Security Module",
@@ -19424,8 +19424,8 @@
       "options": [
         "Hypertext Transfer Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Hypertext Transfer Protocol",
@@ -19455,8 +19455,8 @@
       "options": [
         "Hypertext Transfer Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Hypertext Transfer Protocol",
@@ -19486,8 +19486,8 @@
       "options": [
         "Hypertext Transfer Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Hypertext Transfer Protocol",
@@ -19517,8 +19517,8 @@
       "options": [
         "Hypertext Transfer Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Hypertext Transfer Protocol",
@@ -21089,7 +21089,7 @@
         "Integrated Drive Electronics",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Integrated Drive Electronics",
@@ -21118,7 +21118,7 @@
         "Integrated Drive Electronics",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Integrated Drive Electronics",
@@ -21846,14 +21846,14 @@
       "type": "mc",
       "question": "What does IGP stand for?",
       "options": [
-        "Interior Gateway Protocol",
+        "Internal Gateway Protocol",
         "Automatic Document Feeder",
         "Accelerated Graphics Port",
         "Chief Information Officer"
       ],
       "answer": 0,
-      "answer_text": "Interior Gateway Protocol",
-      "explanation": "IGP stands for Interior Gateway Protocol.",
+      "answer_text": "Internal Gateway Protocol",
+      "explanation": "IGP stands for Internal Gateway Protocol.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -21861,7 +21861,7 @@
       },
       "verify": [
         "IGP",
-        "Interior Gateway Protocol"
+        "Internal Gateway Protocol"
       ],
       "exams": [
         "netplus"
@@ -21872,7 +21872,7 @@
     {
       "id": "igp_e2a::net",
       "type": "mc",
-      "question": "Which abbreviation stands for 'Interior Gateway Protocol'?",
+      "question": "Which abbreviation stands for 'Internal Gateway Protocol'?",
       "options": [
         "IGP",
         "AAA",
@@ -21881,7 +21881,7 @@
       ],
       "answer": 0,
       "answer_text": "IGP",
-      "explanation": "IGP is the abbreviation for Interior Gateway Protocol.",
+      "explanation": "IGP is the abbreviation for Internal Gateway Protocol.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -21889,7 +21889,7 @@
       },
       "verify": [
         "IGP",
-        "Interior Gateway Protocol"
+        "Internal Gateway Protocol"
       ],
       "exams": [
         "netplus"
@@ -22015,9 +22015,9 @@
       "question": "What does IKE stand for?",
       "options": [
         "Internet Key Exchange",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Internet Key Exchange",
@@ -22044,9 +22044,9 @@
       "question": "What does IKE stand for?",
       "options": [
         "Internet Key Exchange",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Internet Key Exchange",
@@ -23084,8 +23084,8 @@
       "options": [
         "Intrusion Prevention System",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Intrusion Prevention System",
@@ -23113,8 +23113,8 @@
       "options": [
         "Intrusion Prevention System",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Intrusion Prevention System",
@@ -26655,9 +26655,9 @@
       "question": "What does MAC stand for?",
       "options": [
         "Mandatory Access Control",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Mandatory Access Control",
@@ -26944,8 +26944,8 @@
       "options": [
         "Message Authentication Code",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Message Authentication Code",
@@ -27703,9 +27703,9 @@
       "question": "What does MDM stand for?",
       "options": [
         "Mobile Device Management",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Mobile Device Management",
@@ -27733,9 +27733,9 @@
       "question": "What does MDM stand for?",
       "options": [
         "Mobile Device Management",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Mobile Device Management",
@@ -27763,9 +27763,9 @@
       "question": "What does MDM stand for?",
       "options": [
         "Mobile Device Management",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Mobile Device Management",
@@ -28492,8 +28492,8 @@
       "options": [
         "Management Information Base",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Management Information Base",
@@ -28661,7 +28661,7 @@
         "Microsoft Management Console",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Microsoft Management Console",
@@ -28690,7 +28690,7 @@
         "Microsoft Management Console",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Microsoft Management Console",
@@ -28833,7 +28833,7 @@
         "Multimedia Messaging Service",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Multimedia Messaging Service",
@@ -29359,9 +29359,9 @@
       "question": "What does MSA stand for?",
       "options": [
         "Master Service Agreement",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Master Service Agreement",
@@ -29587,9 +29587,9 @@
       "question": "What does MSDS stand for?",
       "options": [
         "Material Safety Data Sheet",
-        "End User License Agreement",
         "Mean Time Between Failures",
-        "New Technology File System"
+        "New Technology File System",
+        "Secure Access Service Edge"
       ],
       "answer": 0,
       "answer_text": "Material Safety Data Sheet",
@@ -29616,9 +29616,9 @@
       "question": "What does MSDS stand for?",
       "options": [
         "Material Safety Data Sheet",
-        "End User License Agreement",
         "Mean Time Between Failures",
-        "New Technology File System"
+        "New Technology File System",
+        "Secure Access Service Edge"
       ],
       "answer": 0,
       "answer_text": "Material Safety Data Sheet",
@@ -29703,9 +29703,9 @@
       "question": "What does MSP stand for?",
       "options": [
         "Managed Service Provider",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Managed Service Provider",
@@ -29733,9 +29733,9 @@
       "question": "What does MSP stand for?",
       "options": [
         "Managed Service Provider",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Managed Service Provider",
@@ -29763,9 +29763,9 @@
       "question": "What does MSP stand for?",
       "options": [
         "Managed Service Provider",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Managed Service Provider",
@@ -29884,8 +29884,8 @@
       "options": [
         "Microsoft Remote Assistance",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Microsoft Remote Assistance",
@@ -29913,8 +29913,8 @@
       "options": [
         "Microsoft Remote Assistance",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Microsoft Remote Assistance",
@@ -30057,7 +30057,7 @@
         "Mean Time Between Failure",
         "Bridge Protocol Data Unit",
         "Dual Inline Memory Module",
-        "End User License Agreement"
+        "Material Safety Data Sheet"
       ],
       "answer": 0,
       "answer_text": "Mean Time Between Failure",
@@ -30086,7 +30086,7 @@
         "Mean Time Between Failure",
         "Bridge Protocol Data Unit",
         "Dual Inline Memory Module",
-        "End User License Agreement"
+        "Material Safety Data Sheet"
       ],
       "answer": 0,
       "answer_text": "Mean Time Between Failure",
@@ -30171,9 +30171,9 @@
       "question": "What does MTBF stand for?",
       "options": [
         "Mean Time Between Failures",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "New Technology File System"
+        "New Technology File System",
+        "Secure Access Service Edge"
       ],
       "answer": 0,
       "answer_text": "Mean Time Between Failures",
@@ -30227,9 +30227,9 @@
       "question": "What does MTBF stand for?",
       "options": [
         "Meantime Between Failure",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Meantime Between Failure",
@@ -31119,9 +31119,9 @@
       "question": "What does NAS stand for?",
       "options": [
         "Network Attached Storage",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Network Attached Storage",
@@ -31148,9 +31148,9 @@
       "question": "What does NAS stand for?",
       "options": [
         "Network Attached Storage",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Network Attached Storage",
@@ -31292,8 +31292,8 @@
       "options": [
         "Network Address Translation",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Network Address Translation",
@@ -31323,8 +31323,8 @@
       "options": [
         "Network Address Translation",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Network Address Translation",
@@ -31354,8 +31354,8 @@
       "options": [
         "Network Address Translation",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Network Address Translation",
@@ -31385,8 +31385,8 @@
       "options": [
         "Network Address Translation",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Network Address Translation",
@@ -32007,9 +32007,9 @@
       "question": "What does NFC stand for?",
       "options": [
         "Near Field Communication",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Near Field Communication",
@@ -32799,9 +32799,9 @@
       "question": "What does NTFS stand for?",
       "options": [
         "New Technology File System",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "Secure Access Service Edge"
       ],
       "answer": 0,
       "answer_text": "New Technology File System",
@@ -32829,9 +32829,9 @@
       "question": "What does NTFS stand for?",
       "options": [
         "New Technology File System",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "Secure Access Service Edge"
       ],
       "answer": 0,
       "answer_text": "New Technology File System",
@@ -32859,9 +32859,9 @@
       "question": "What does NTFS stand for?",
       "options": [
         "New Technology File System",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "Secure Access Service Edge"
       ],
       "answer": 0,
       "answer_text": "New Technology File System",
@@ -32980,8 +32980,8 @@
       "options": [
         "New Technology LAN Manager",
         "File Transfer Protocol SFTP",
-        "End User License Agreement",
-        "Material Safety Data Sheet"
+        "Material Safety Data Sheet",
+        "Mean Time Between Failures"
       ],
       "answer": 0,
       "answer_text": "New Technology LAN Manager",
@@ -33035,9 +33035,9 @@
       "question": "What does NTP stand for?",
       "options": [
         "Network Time Protocol",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Network Time Protocol",
@@ -33066,9 +33066,9 @@
       "question": "What does NTP stand for?",
       "options": [
         "Network Time Protocol",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Network Time Protocol",
@@ -33097,9 +33097,9 @@
       "question": "What does NTP stand for?",
       "options": [
         "Network Time Protocol",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Network Time Protocol",
@@ -33128,9 +33128,9 @@
       "question": "What does NTP stand for?",
       "options": [
         "Network Time Protocol",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Network Time Protocol",
@@ -33283,9 +33283,9 @@
       "question": "What does NTS stand for?",
       "options": [
         "Network Time Security",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Network Time Security",
@@ -33341,7 +33341,7 @@
         "Non-Volatile Memory Express",
         "Static Random-Access Memory",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit"
+        "Address Resolution Protocol"
       ],
       "answer": 0,
       "answer_text": "Non-Volatile Memory Express",
@@ -33396,8 +33396,8 @@
       "options": [
         "Non-volatile Memory Express",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Non-volatile Memory Express",
@@ -33849,7 +33849,7 @@
         "Organic Light-emitting Diode",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Organic Light-emitting Diode",
@@ -33878,7 +33878,7 @@
         "Organic Light-emitting Diode",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Organic Light-emitting Diode",
@@ -33963,9 +33963,9 @@
       "question": "What does ONT stand for?",
       "options": [
         "Optical Network Terminal",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Optical Network Terminal",
@@ -33992,9 +33992,9 @@
       "question": "What does ONT stand for?",
       "options": [
         "Optical Network Terminal",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Optical Network Terminal",
@@ -34385,7 +34385,7 @@
         "Open Systems Interconnection",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Open Systems Interconnection",
@@ -35255,9 +35255,9 @@
       "question": "What does PAC stand for?",
       "options": [
         "Proxy Auto Configuration",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Proxy Auto Configuration",
@@ -35369,7 +35369,7 @@
         "Privileged Access Management",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Privileged Access Management",
@@ -35423,9 +35423,9 @@
       "question": "What does PAN stand for?",
       "options": [
         "Personal Area Network",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Personal Area Network",
@@ -35452,9 +35452,9 @@
       "question": "What does PAN stand for?",
       "options": [
         "Personal Area Network",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Personal Area Network",
@@ -35595,9 +35595,9 @@
       "question": "What does PAT stand for?",
       "options": [
         "Port Address Translation",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Port Address Translation",
@@ -35624,9 +35624,9 @@
       "question": "What does PAT stand for?",
       "options": [
         "Port Address Translation",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Port Address Translation",
@@ -36051,9 +36051,9 @@
       "question": "What does PCI stand for?",
       "options": [
         "Payment Card Industry",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Payment Card Industry",
@@ -36335,9 +36335,9 @@
       "question": "What does PCL stand for?",
       "options": [
         "Printer Command Language",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Printer Command Language",
@@ -36364,9 +36364,9 @@
       "question": "What does PCL stand for?",
       "options": [
         "Printer Command Language",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Printer Command Language",
@@ -36451,9 +36451,9 @@
       "question": "What does PDF stand for?",
       "options": [
         "Portable Document Format",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Portable Document Format",
@@ -37039,9 +37039,9 @@
       "question": "What does PEM stand for?",
       "options": [
         "Privacy Enhanced Mail",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Privacy Enhanced Mail",
@@ -37208,8 +37208,8 @@
       "options": [
         "Personal Health Information",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Personal Health Information",
@@ -39489,7 +39489,7 @@
         "Potentially Unwanted Program",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Potentially Unwanted Program",
@@ -41113,7 +41113,7 @@
         "Radio Frequency Interference",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Radio Frequency Interference",
@@ -41222,14 +41222,14 @@
       "type": "mc",
       "question": "What does RFID stand for?",
       "options": [
-        "Radio Frequency Identification",
-        "Advanced Technology Attachment",
-        "Classless Inter-domain Routing",
-        "Encapsulating Security Payload"
+        "Radio-Frequency Identification",
+        "Corporate-owned, Business-only",
+        "Distributed Denial-of-service",
+        "Radio-Frequency Interference"
       ],
       "answer": 0,
-      "answer_text": "Radio Frequency Identification",
-      "explanation": "RFID stands for Radio Frequency Identification.",
+      "answer_text": "Radio-Frequency Identification",
+      "explanation": "RFID stands for Radio-Frequency Identification.",
       "difficulty": "easy",
       "source": {
         "note": "A+ Core 1/Common Acronyms.md",
@@ -41237,7 +41237,7 @@
       },
       "verify": [
         "RFID",
-        "Radio Frequency Identification"
+        "Radio-Frequency Identification"
       ],
       "exams": [
         "aplus1",
@@ -41253,14 +41253,14 @@
       "type": "mc",
       "question": "What does RFID stand for?",
       "options": [
-        "Radio Frequency Identification",
-        "Advanced Technology Attachment",
-        "Classless Inter-domain Routing",
-        "Encapsulating Security Payload"
+        "Radio-Frequency Identification",
+        "Corporate-owned, Business-only",
+        "Distributed Denial-of-service",
+        "Radio-Frequency Interference"
       ],
       "answer": 0,
-      "answer_text": "Radio Frequency Identification",
-      "explanation": "RFID stands for Radio Frequency Identification.",
+      "answer_text": "Radio-Frequency Identification",
+      "explanation": "RFID stands for Radio-Frequency Identification.",
       "difficulty": "easy",
       "source": {
         "note": "A+ Core 1/Common Acronyms.md",
@@ -41268,7 +41268,7 @@
       },
       "verify": [
         "RFID",
-        "Radio Frequency Identification"
+        "Radio-Frequency Identification"
       ],
       "exams": [
         "aplus1",
@@ -41284,14 +41284,14 @@
       "type": "mc",
       "question": "What does RFID stand for?",
       "options": [
-        "Radio Frequency Identification",
-        "Advanced Technology Attachment",
-        "Classless Inter-domain Routing",
-        "Encapsulating Security Payload"
+        "Radio-Frequency Identification",
+        "Corporate-owned, Business-only",
+        "Distributed Denial-of-service",
+        "Radio-Frequency Interference"
       ],
       "answer": 0,
-      "answer_text": "Radio Frequency Identification",
-      "explanation": "RFID stands for Radio Frequency Identification.",
+      "answer_text": "Radio-Frequency Identification",
+      "explanation": "RFID stands for Radio-Frequency Identification.",
       "difficulty": "easy",
       "source": {
         "note": "A+ Core 1/Common Acronyms.md",
@@ -41299,7 +41299,7 @@
       },
       "verify": [
         "RFID",
-        "Radio Frequency Identification"
+        "Radio-Frequency Identification"
       ],
       "exams": [
         "aplus1",
@@ -41315,14 +41315,14 @@
       "type": "mc",
       "question": "What does RFID stand for?",
       "options": [
-        "Radio Frequency Identification",
-        "Advanced Technology Attachment",
-        "Classless Inter-domain Routing",
-        "Encapsulating Security Payload"
+        "Radio-Frequency Identification",
+        "Corporate-owned, Business-only",
+        "Distributed Denial-of-service",
+        "Radio-Frequency Interference"
       ],
       "answer": 0,
-      "answer_text": "Radio Frequency Identification",
-      "explanation": "RFID stands for Radio Frequency Identification.",
+      "answer_text": "Radio-Frequency Identification",
+      "explanation": "RFID stands for Radio-Frequency Identification.",
       "difficulty": "easy",
       "source": {
         "note": "A+ Core 1/Common Acronyms.md",
@@ -41330,7 +41330,7 @@
       },
       "verify": [
         "RFID",
-        "Radio Frequency Identification"
+        "Radio-Frequency Identification"
       ],
       "exams": [
         "aplus1",
@@ -41344,7 +41344,7 @@
     {
       "id": "rfid_e2a::a+1",
       "type": "mc",
-      "question": "Which abbreviation stands for 'Radio Frequency Identification'?",
+      "question": "Which abbreviation stands for 'Radio-Frequency Identification'?",
       "options": [
         "RFID",
         "ACPI",
@@ -41353,7 +41353,7 @@
       ],
       "answer": 0,
       "answer_text": "RFID",
-      "explanation": "RFID is the abbreviation for Radio Frequency Identification.",
+      "explanation": "RFID is the abbreviation for Radio-Frequency Identification.",
       "difficulty": "easy",
       "source": {
         "note": "A+ Core 1/Common Acronyms.md",
@@ -41361,7 +41361,7 @@
       },
       "verify": [
         "RFID",
-        "Radio Frequency Identification"
+        "Radio-Frequency Identification"
       ],
       "exams": [
         "aplus1",
@@ -41375,7 +41375,7 @@
     {
       "id": "rfid_e2a::a+2",
       "type": "mc",
-      "question": "Which abbreviation stands for 'Radio Frequency Identification'?",
+      "question": "Which abbreviation stands for 'Radio-Frequency Identification'?",
       "options": [
         "RFID",
         "ACPI",
@@ -41384,7 +41384,7 @@
       ],
       "answer": 0,
       "answer_text": "RFID",
-      "explanation": "RFID is the abbreviation for Radio Frequency Identification.",
+      "explanation": "RFID is the abbreviation for Radio-Frequency Identification.",
       "difficulty": "easy",
       "source": {
         "note": "A+ Core 1/Common Acronyms.md",
@@ -41392,7 +41392,7 @@
       },
       "verify": [
         "RFID",
-        "Radio Frequency Identification"
+        "Radio-Frequency Identification"
       ],
       "exams": [
         "aplus1",
@@ -41406,7 +41406,7 @@
     {
       "id": "rfid_e2a::net",
       "type": "mc",
-      "question": "Which abbreviation stands for 'Radio Frequency Identification'?",
+      "question": "Which abbreviation stands for 'Radio-Frequency Identification'?",
       "options": [
         "RFID",
         "ACPI",
@@ -41415,7 +41415,7 @@
       ],
       "answer": 0,
       "answer_text": "RFID",
-      "explanation": "RFID is the abbreviation for Radio Frequency Identification.",
+      "explanation": "RFID is the abbreviation for Radio-Frequency Identification.",
       "difficulty": "easy",
       "source": {
         "note": "A+ Core 1/Common Acronyms.md",
@@ -41423,7 +41423,7 @@
       },
       "verify": [
         "RFID",
-        "Radio Frequency Identification"
+        "Radio-Frequency Identification"
       ],
       "exams": [
         "aplus1",
@@ -41437,7 +41437,7 @@
     {
       "id": "rfid_e2a::sec",
       "type": "mc",
-      "question": "Which abbreviation stands for 'Radio Frequency Identification'?",
+      "question": "Which abbreviation stands for 'Radio-Frequency Identification'?",
       "options": [
         "RFID",
         "ACPI",
@@ -41446,7 +41446,7 @@
       ],
       "answer": 0,
       "answer_text": "RFID",
-      "explanation": "RFID is the abbreviation for Radio Frequency Identification.",
+      "explanation": "RFID is the abbreviation for Radio-Frequency Identification.",
       "difficulty": "easy",
       "source": {
         "note": "A+ Core 1/Common Acronyms.md",
@@ -41454,7 +41454,7 @@
       },
       "verify": [
         "RFID",
-        "Radio Frequency Identification"
+        "Radio-Frequency Identification"
       ],
       "exams": [
         "aplus1",
@@ -41473,7 +41473,7 @@
         "Routing Information Protocol",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Routing Information Protocol",
@@ -41575,62 +41575,6 @@
         "secplus"
       ],
       "game": "sec",
-      "domain": null
-    },
-    {
-      "id": "rj_a2e::net",
-      "type": "mc",
-      "question": "What does RJ stand for?",
-      "options": [
-        "Registered Jack",
-        "Android Package",
-        "Cipher Feedback",
-        "Local Connector"
-      ],
-      "answer": 0,
-      "answer_text": "Registered Jack",
-      "explanation": "RJ stands for Registered Jack.",
-      "difficulty": "easy",
-      "source": {
-        "note": "Network+/Common Acronyms.md",
-        "section": "Common Acronyms"
-      },
-      "verify": [
-        "RJ",
-        "Registered Jack"
-      ],
-      "exams": [
-        "netplus"
-      ],
-      "game": "net",
-      "domain": null
-    },
-    {
-      "id": "rj_e2a::net",
-      "type": "mc",
-      "question": "Which abbreviation stands for 'Registered Jack'?",
-      "options": [
-        "RJ",
-        "AC",
-        "AH",
-        "AI"
-      ],
-      "answer": 0,
-      "answer_text": "RJ",
-      "explanation": "RJ is the abbreviation for Registered Jack.",
-      "difficulty": "easy",
-      "source": {
-        "note": "Network+/Common Acronyms.md",
-        "section": "Common Acronyms"
-      },
-      "verify": [
-        "RJ",
-        "Registered Jack"
-      ],
-      "exams": [
-        "netplus"
-      ],
-      "game": "net",
       "domain": null
     },
     {
@@ -42099,9 +42043,9 @@
       "question": "What does RPO stand for?",
       "options": [
         "Recovery Point Objective",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Recovery Point Objective",
@@ -42128,9 +42072,9 @@
       "question": "What does RPO stand for?",
       "options": [
         "Recovery Point Objective",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Recovery Point Objective",
@@ -42745,7 +42689,7 @@
         "Real-time Transport Protocol",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Real-time Transport Protocol",
@@ -42774,7 +42718,7 @@
         "Real-time Transport Protocol",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Real-time Transport Protocol",
@@ -43871,9 +43815,9 @@
       "question": "What does SAN stand for?",
       "options": [
         "Subject Alternative Name",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Subject Alternative Name",
@@ -44043,9 +43987,9 @@
       "question": "What does SASE stand for?",
       "options": [
         "Secure Access Service Edge",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "New Technology File System"
       ],
       "answer": 0,
       "answer_text": "Secure Access Service Edge",
@@ -44072,9 +44016,9 @@
       "question": "What does SASE stand for?",
       "options": [
         "Secure Access Service Edge",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "New Technology File System"
       ],
       "answer": 0,
       "answer_text": "Secure Access Service Edge",
@@ -45451,9 +45395,9 @@
       "question": "What does SDK stand for?",
       "options": [
         "Software Development Kit",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Software Development Kit",
@@ -45961,7 +45905,7 @@
         "Structured Exception Handler",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Structured Exception Handler",
@@ -46016,8 +45960,8 @@
       "options": [
         "Small Form-factor Pluggable",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Small Form-factor Pluggable",
@@ -46307,9 +46251,9 @@
       "question": "What does SHA stand for?",
       "options": [
         "Secure Hashing Algorithm",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Secure Hashing Algorithm",
@@ -46832,8 +46776,8 @@
       "options": [
         "Session Initiation Protocol",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Session Initiation Protocol",
@@ -47363,9 +47307,9 @@
       "question": "What does SMS stand for?",
       "options": [
         "Short Message Service",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Short Message Service",
@@ -47393,9 +47337,9 @@
       "question": "What does SMS stand for?",
       "options": [
         "Short Message Service",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Short Message Service",
@@ -47423,9 +47367,9 @@
       "question": "What does SMS stand for?",
       "options": [
         "Short Message Service",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Short Message Service",
@@ -48791,9 +48735,9 @@
       "question": "What does SOHO stand for?",
       "options": [
         "Small Office/Home Office",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Small Office/Home Office",
@@ -48820,9 +48764,9 @@
       "question": "What does SOHO stand for?",
       "options": [
         "Small Office/Home Office",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Small Office/Home Office",
@@ -48909,7 +48853,7 @@
         "Standard Operating Procedure",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Standard Operating Procedure",
@@ -48938,7 +48882,7 @@
         "Standard Operating Procedure",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Standard Operating Procedure",
@@ -49677,7 +49621,7 @@
         "Static Random-Access Memory",
         "Non-Volatile Memory Express",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit"
+        "Address Resolution Protocol"
       ],
       "answer": 0,
       "answer_text": "Static Random-Access Memory",
@@ -49732,8 +49676,8 @@
       "options": [
         "Static Random-access Memory",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Static Random-access Memory",
@@ -50127,9 +50071,9 @@
       "question": "What does SSE stand for?",
       "options": [
         "Security Service Edge",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Security Service Edge",
@@ -51387,9 +51331,9 @@
       "question": "What does STP stand for?",
       "options": [
         "Shielded Twisted Pair",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Shielded Twisted Pair",
@@ -51417,9 +51361,9 @@
       "question": "What does STP stand for?",
       "options": [
         "Shielded Twisted Pair",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Shielded Twisted Pair",
@@ -51447,9 +51391,9 @@
       "question": "What does STP stand for?",
       "options": [
         "Shielded Twisted Pair",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Shielded Twisted Pair",
@@ -51567,9 +51511,9 @@
       "question": "What does SVI stand for?",
       "options": [
         "Switch Virtual Interface",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Switch Virtual Interface",
@@ -52807,9 +52751,9 @@
       "question": "What does TLS stand for?",
       "options": [
         "Transport Layer Security",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Transport Layer Security",
@@ -52838,9 +52782,9 @@
       "question": "What does TLS stand for?",
       "options": [
         "Transport Layer Security",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Transport Layer Security",
@@ -52869,9 +52813,9 @@
       "question": "What does TLS stand for?",
       "options": [
         "Transport Layer Security",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Transport Layer Security",
@@ -52900,9 +52844,9 @@
       "question": "What does TLS stand for?",
       "options": [
         "Transport Layer Security",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Transport Layer Security",
@@ -53229,7 +53173,7 @@
         "Time-based One-time Password",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Time-based One-time Password",
@@ -54512,8 +54456,8 @@
       "options": [
         "Unified Endpoint Management",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Unified Endpoint Management",
@@ -54567,9 +54511,9 @@
       "question": "What does UHD stand for?",
       "options": [
         "Ultra High Definition",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Ultra High Definition",
@@ -54624,8 +54568,8 @@
       "options": [
         "Universal Naming Convention",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Universal Naming Convention",
@@ -54653,8 +54597,8 @@
       "options": [
         "Universal Naming Convention",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Universal Naming Convention",
@@ -54857,7 +54801,7 @@
         "Uninterruptible Power Supply",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Uninterruptible Power Supply",
@@ -54888,7 +54832,7 @@
         "Uninterruptible Power Supply",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Uninterruptible Power Supply",
@@ -54919,7 +54863,7 @@
         "Uninterruptible Power Supply",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Uninterruptible Power Supply",
@@ -54950,7 +54894,7 @@
         "Uninterruptible Power Supply",
         "Advanced Encryption Standard",
         "Advanced Technology Extended",
-        "Discretionary Access Control"
+        "Business Continuity Planning"
       ],
       "answer": 0,
       "answer_text": "Uninterruptible Power Supply",
@@ -55104,8 +55048,8 @@
       "options": [
         "Uniform Resource Identifier",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Uniform Resource Identifier",
@@ -55159,9 +55103,9 @@
       "question": "What does URL stand for?",
       "options": [
         "Uniform Resource Locator",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Uniform Resource Locator",
@@ -56360,8 +56304,8 @@
       "options": [
         "Virtual Desktop Environment",
         "Automated Indicator Sharing",
-        "Accelerated Processing Unit",
-        "Address Resolution Protocol"
+        "Address Resolution Protocol",
+        "Business Partners Agreement"
       ],
       "answer": 0,
       "answer_text": "Virtual Desktop Environment",
@@ -56883,9 +56827,9 @@
       "question": "What does VLAN stand for?",
       "options": [
         "Virtual Local Area Network",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "New Technology File System"
       ],
       "answer": 0,
       "answer_text": "Virtual Local Area Network",
@@ -56912,9 +56856,9 @@
       "question": "What does VLAN stand for?",
       "options": [
         "Virtual Local Area Network",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "New Technology File System"
       ],
       "answer": 0,
       "answer_text": "Virtual Local Area Network",
@@ -57359,9 +57303,9 @@
       "question": "What does VNC stand for?",
       "options": [
         "Virtual Network Computer",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Virtual Network Computer",
@@ -57388,9 +57332,9 @@
       "question": "What does VNC stand for?",
       "options": [
         "Virtual Network Computer",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Virtual Network Computer",
@@ -57763,9 +57707,9 @@
       "question": "What does VPC stand for?",
       "options": [
         "Virtual Private Cloud",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Virtual Private Cloud",
@@ -57792,9 +57736,9 @@
       "question": "What does VPC stand for?",
       "options": [
         "Virtual Private Cloud",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Virtual Private Cloud",
@@ -58406,14 +58350,14 @@
       "type": "mc",
       "question": "What does VTP stand for?",
       "options": [
-        "VLAN Trunking Protocol",
-        "Virtual Extensible LAN",
-        "Wi-Fi Protected Access",
-        "WiFi Protected Access"
+        "VLAN Trunk Protocol",
+        "Access Control List",
+        "Galois Counter Mode",
+        "Group Policy Object"
       ],
       "answer": 0,
-      "answer_text": "VLAN Trunking Protocol",
-      "explanation": "VTP stands for VLAN Trunking Protocol.",
+      "answer_text": "VLAN Trunk Protocol",
+      "explanation": "VTP stands for VLAN Trunk Protocol.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -58421,7 +58365,7 @@
       },
       "verify": [
         "VTP",
-        "VLAN Trunking Protocol"
+        "VLAN Trunk Protocol"
       ],
       "exams": [
         "netplus"
@@ -58432,7 +58376,7 @@
     {
       "id": "vtp_e2a::net",
       "type": "mc",
-      "question": "Which abbreviation stands for 'VLAN Trunking Protocol'?",
+      "question": "Which abbreviation stands for 'VLAN Trunk Protocol'?",
       "options": [
         "VTP",
         "AAA",
@@ -58441,7 +58385,7 @@
       ],
       "answer": 0,
       "answer_text": "VTP",
-      "explanation": "VTP is the abbreviation for VLAN Trunking Protocol.",
+      "explanation": "VTP is the abbreviation for VLAN Trunk Protocol.",
       "difficulty": "easy",
       "source": {
         "note": "Network+/Common Acronyms.md",
@@ -58449,7 +58393,7 @@
       },
       "verify": [
         "VTP",
-        "VLAN Trunking Protocol"
+        "VLAN Trunk Protocol"
       ],
       "exams": [
         "netplus"
@@ -58463,9 +58407,9 @@
       "question": "What does VXLAN stand for?",
       "options": [
         "Virtual Extensible LAN",
-        "VLAN Trunking Protocol",
         "Wi-Fi Protected Access",
-        "WiFi Protected Access"
+        "WiFi Protected Access",
+        "Wi-Fi Protected Setup"
       ],
       "answer": 0,
       "answer_text": "Virtual Extensible LAN",
@@ -58519,9 +58463,9 @@
       "question": "What does WAF stand for?",
       "options": [
         "Web Application Firewall",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Web Application Firewall",
@@ -58549,9 +58493,9 @@
       "question": "What does WAF stand for?",
       "options": [
         "Web Application Firewall",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Web Application Firewall",
@@ -58579,9 +58523,9 @@
       "question": "What does WAF stand for?",
       "options": [
         "Web Application Firewall",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Web Application Firewall",
@@ -58879,9 +58823,9 @@
       "question": "What does WAP stand for?",
       "options": [
         "Wireless Access Point",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Wireless Access Point",
@@ -58910,9 +58854,9 @@
       "question": "What does WAP stand for?",
       "options": [
         "Wireless Access Point",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Wireless Access Point",
@@ -58941,9 +58885,9 @@
       "question": "What does WAP stand for?",
       "options": [
         "Wireless Access Point",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Wireless Access Point",
@@ -58972,9 +58916,9 @@
       "question": "What does WAP stand for?",
       "options": [
         "Wireless Access Point",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Wireless Access Point",
@@ -59127,9 +59071,9 @@
       "question": "What does WEP stand for?",
       "options": [
         "Wired Equivalent Privacy",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Wired Equivalent Privacy",
@@ -59158,9 +59102,9 @@
       "question": "What does WEP stand for?",
       "options": [
         "Wired Equivalent Privacy",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Wired Equivalent Privacy",
@@ -59189,9 +59133,9 @@
       "question": "What does WEP stand for?",
       "options": [
         "Wired Equivalent Privacy",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Wired Equivalent Privacy",
@@ -59220,9 +59164,9 @@
       "question": "What does WEP stand for?",
       "options": [
         "Wired Equivalent Privacy",
-        "Business Continuity Plan",
         "Business Impact Analysis",
-        "Corrective Action Report"
+        "Corrective Action Report",
+        "Content Delivery Network"
       ],
       "answer": 0,
       "answer_text": "Wired Equivalent Privacy",
@@ -59775,9 +59719,9 @@
       "question": "What does WMN stand for?",
       "options": [
         "Wireless Mesh Network",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Wireless Mesh Network",
@@ -59804,9 +59748,9 @@
       "question": "What does WMN stand for?",
       "options": [
         "Wireless Mesh Network",
+        "Audio Processing Unit",
         "Acceptable Use Policy",
-        "Cipher Block Chaining",
-        "Disk Operating System"
+        "Cipher Block Chaining"
       ],
       "answer": 0,
       "answer_text": "Wireless Mesh Network",
@@ -60128,8 +60072,8 @@
       "options": [
         "WiFi Protected Access",
         "Wi-Fi Protected Setup",
-        "Acceptable Use Policy",
-        "Cipher Block Chaining"
+        "Audio Processing Unit",
+        "Acceptable Use Policy"
       ],
       "answer": 0,
       "answer_text": "WiFi Protected Access",
@@ -60300,8 +60244,8 @@
       "options": [
         "Wi-Fi Protected Setup",
         "WiFi Protected Access",
-        "Acceptable Use Policy",
-        "Cipher Block Chaining"
+        "Audio Processing Unit",
+        "Acceptable Use Policy"
       ],
       "answer": 0,
       "answer_text": "Wi-Fi Protected Setup",
@@ -60329,8 +60273,8 @@
       "options": [
         "Wi-Fi Protected Setup",
         "WiFi Protected Access",
-        "Acceptable Use Policy",
-        "Cipher Block Chaining"
+        "Audio Processing Unit",
+        "Acceptable Use Policy"
       ],
       "answer": 0,
       "answer_text": "Wi-Fi Protected Setup",
@@ -60471,9 +60415,9 @@
       "question": "What does WWAN stand for?",
       "options": [
         "Wireless Wide Area Network",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "New Technology File System"
       ],
       "answer": 0,
       "answer_text": "Wireless Wide Area Network",
@@ -60500,9 +60444,9 @@
       "question": "What does WWAN stand for?",
       "options": [
         "Wireless Wide Area Network",
-        "End User License Agreement",
         "Material Safety Data Sheet",
-        "Mean Time Between Failures"
+        "Mean Time Between Failures",
+        "New Technology File System"
       ],
       "answer": 0,
       "answer_text": "Wireless Wide Area Network",
@@ -72011,7 +71955,7 @@
         "id": "apu",
         "display": "APU",
         "acronym": "APU",
-        "expansion": "Accelerated Processing Unit",
+        "expansion": "Audio Processing Unit",
         "exams": [
           "netplus"
         ],
@@ -72021,7 +71965,7 @@
         },
         "verify": [
           "APU",
-          "Accelerated Processing Unit"
+          "Audio Processing Unit"
         ]
       },
       {
@@ -72227,7 +72171,7 @@
         "id": "bcp",
         "display": "BCP",
         "acronym": "BCP",
-        "expansion": "Business Continuity Plan",
+        "expansion": "Business Continuity Planning",
         "exams": [
           "netplus",
           "secplus"
@@ -72238,7 +72182,7 @@
         },
         "verify": [
           "BCP",
-          "Business Continuity Plan"
+          "Business Continuity Planning"
         ]
       },
       {
@@ -74345,9 +74289,9 @@
       },
       {
         "id": "eula_1",
-        "display": "EULA (End User License Agreement)",
+        "display": "EULA (End-user License Agreement)",
         "acronym": "EULA",
-        "expansion": "End User License Agreement",
+        "expansion": "End-user License Agreement",
         "exams": [
           "netplus",
           "secplus"
@@ -74358,7 +74302,7 @@
         },
         "verify": [
           "EULA",
-          "End User License Agreement"
+          "End-user License Agreement"
         ]
       },
       {
@@ -75577,7 +75521,7 @@
         "id": "igp",
         "display": "IGP",
         "acronym": "IGP",
-        "expansion": "Interior Gateway Protocol",
+        "expansion": "Internal Gateway Protocol",
         "exams": [
           "netplus"
         ],
@@ -75587,7 +75531,7 @@
         },
         "verify": [
           "IGP",
-          "Interior Gateway Protocol"
+          "Internal Gateway Protocol"
         ]
       },
       {
@@ -79157,7 +79101,7 @@
         "id": "rfid",
         "display": "RFID",
         "acronym": "RFID",
-        "expansion": "Radio Frequency Identification",
+        "expansion": "Radio-Frequency Identification",
         "exams": [
           "aplus1",
           "aplus2",
@@ -79170,7 +79114,7 @@
         },
         "verify": [
           "RFID",
-          "Radio Frequency Identification"
+          "Radio-Frequency Identification"
         ]
       },
       {
@@ -79205,23 +79149,6 @@
         "verify": [
           "RIPEMD",
           "RACE Integrity Primitives Evaluation Message Digest"
-        ]
-      },
-      {
-        "id": "rj",
-        "display": "RJ",
-        "acronym": "RJ",
-        "expansion": "Registered Jack",
-        "exams": [
-          "netplus"
-        ],
-        "source": {
-          "note": "Network+/Common Acronyms.md",
-          "section": "Common Acronyms"
-        },
-        "verify": [
-          "RJ",
-          "Registered Jack"
         ]
       },
       {
@@ -82025,7 +81952,7 @@
         "id": "vtp",
         "display": "VTP",
         "acronym": "VTP",
-        "expansion": "VLAN Trunking Protocol",
+        "expansion": "VLAN Trunk Protocol",
         "exams": [
           "netplus"
         ],
@@ -82035,7 +81962,7 @@
         },
         "verify": [
           "VTP",
-          "VLAN Trunking Protocol"
+          "VLAN Trunk Protocol"
         ]
       },
       {

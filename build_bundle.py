@@ -2,7 +2,7 @@
 """
 build_bundle.py — merge the three quiz banks into one data/bundle.json.
 
-TRACEBACK's heart is a single generated bundle. At build time this script
+TERMINUS's heart is a single generated bundle. At build time this script
 reads the three committed source banks — CompTIA acronyms, Security+ and
 Network+ — and emits data/bundle.json:
 
@@ -52,7 +52,7 @@ SRC_SECURITY = os.path.join(SCRIPT_DIR, "..", "security-quiz")
 SRC_NETWORK = os.path.join(SCRIPT_DIR, "..", "network-quiz")
 
 # exam scope -> game tag. aplus1/aplus2/netplus/secplus collapse onto the
-# four TRACEBACK games.
+# four TERMINUS games.
 GAME_TAG = {
     "aplus1": "a+1",
     "aplus2": "a+2",

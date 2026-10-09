@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-achievements.py — TRACEBACK achievement definitions and check logic.
+achievements.py — TERMINUS achievement definitions and check logic.
 
-Pure Python 3 standard library. Imported by BOTH front-ends (traceback_cli.py
-and traceback_gui.py) so the unlock rules can never drift between them.
+Pure Python 3 standard library. Imported by BOTH front-ends (terminus_cli.py
+and terminus_gui.py) so the unlock rules can never drift between them.
 
 An achievement is a small dictionary:
 

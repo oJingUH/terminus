@@ -149,10 +149,10 @@ def main(argv=None):
 
     bundle = _load(args.bundle)
 
-    fixture_tmp = tempfile.TemporaryDirectory(prefix="traceback-vault-")
+    fixture_tmp = tempfile.TemporaryDirectory(prefix="terminus-vault-")
     vault = build_fixture(bundle, fixture_tmp.name)
 
-    print("TRACEBACK — negative controls")
+    print("TERMINUS — negative controls")
     print("=" * 66)
     print("vault : %s  (temporary fixture)" % vault)
 

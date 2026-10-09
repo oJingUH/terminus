@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-traceback.py — TRACEBACK shared game engine.
+terminus.py — TERMINUS shared game engine.
 
-Pure Python 3 standard library. Holds ALL game logic so traceback_cli.py (the
-terminal edition) and traceback_gui.py (the 3D edition) share one code path
+Pure Python 3 standard library. Holds ALL game logic so terminus_cli.py (the
+terminal edition) and terminus_gui.py (the 3D edition) share one code path
 and cannot drift. The app's heart is a single generated bundle,
 data/bundle.json, built by build_bundle.py from the three committed source
 banks (CompTIA acronyms, Security+, Network+).
@@ -49,7 +49,32 @@ import sys
 import achievements
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_BUNDLE = os.path.join(SCRIPT_DIR, "data", "bundle.json")
+# In a PyInstaller onefile build the bundle is unpacked to sys._MEIPASS; in a
+# normal checkout it sits next to this module. Both land at <base>/data/bundle.json.
+_BUNDLE_BASE = getattr(sys, "_MEIPASS", None) or SCRIPT_DIR
+DEFAULT_BUNDLE = os.path.join(_BUNDLE_BASE, "data", "bundle.json")
+
+
+def default_data_dir(app="terminus"):
+    """Cross-platform per-user data dir for profiles and stats.
+
+    Windows -> %LOCALAPPDATA%\\TERMINUS
+    macOS   -> ~/Library/Application Support/TERMINUS
+    Linux   -> $XDG_DATA_HOME/terminus or ~/.local/share/terminus
+
+    This stays writable in a PyInstaller onefile build (unlike the script
+    directory, which is a temp extraction dir).
+    """
+    if sys.platform == "win32":
+        base = os.environ.get("LOCALAPPDATA") or os.path.join(
+            os.path.expanduser("~"), "AppData", "Local")
+        return os.path.join(base, app.upper())
+    if sys.platform == "darwin":
+        return os.path.join(os.path.expanduser("~"), "Library",
+                            "Application Support", app.upper())
+    base = os.environ.get("XDG_DATA_HOME") or os.path.join(
+        os.path.expanduser("~"), ".local", "share")
+    return os.path.join(base, app)
 
 # Source banks, used only to detect a stale bundle (read only).
 _SOURCE_BANKS = [
@@ -120,7 +145,7 @@ def load_bundle(path=DEFAULT_BUNDLE):
     """Return the bundle, or exit(1) with a clean one-line message on error."""
     bundle, err = load_bundle_or_error(path)
     if err:
-        sys.exit("traceback.py: %s" % err)
+        sys.exit("terminus.py: %s" % err)
     return bundle
 
 
@@ -156,7 +181,7 @@ def daily_rng(day):
     """The Daily Uplink draws, orders and shuffles with this rng. A string
     seed hashes the same on every machine, so everyone playing on the same
     date with the same bundle gets an identical round."""
-    return random.Random("traceback-daily-%s" % day.isoformat())
+    return random.Random("terminus-daily-%s" % day.isoformat())
 
 
 def select_daily(questions, rng, n=10):
@@ -465,7 +490,7 @@ def filter_scope(table, game):
     """Filter the acronym master table to a cert scope.
 
     The acronym table's `exams` list uses source exam tags (aplus1..secplus);
-    `game` is the TRACEBACK game. Returns entries whose exams include the
+    `game` is the TERMINUS game. Returns entries whose exams include the
     matching exam tag, or every entry when game is None.
     """
     if game is None:

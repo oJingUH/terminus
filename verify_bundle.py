@@ -36,7 +36,7 @@ Prints a PASS/FAIL summary and exits non-zero on any failure.
 
 Usage:
     python3 verify_bundle.py [--bundle data/bundle.json]
-                             [--vault "/home/ojinguh/Documents/Obsidian Vault"]
+                             [--vault "/path/to/Obsidian Vault"]
 """
 
 import argparse
@@ -218,7 +218,7 @@ def _make_note_loader(vault):
 
 def verify_questions(bundle, vault):
     print("=" * 66)
-    print("TRACEBACK Question Bank Verification")
+    print("TERMINUS Question Bank Verification")
     print("=" * 66)
     print("vault : %s" % vault)
 
@@ -380,7 +380,7 @@ def verify_questions(bundle, vault):
 
 def verify_drill_table(table, kind, vault):
     print("=" * 66)
-    print("TRACEBACK %s Drill Table Verification" % kind.title())
+    print("TERMINUS %s Drill Table Verification" % kind.title())
     print("=" * 66)
     print("vault : %s" % vault)
 
@@ -496,10 +496,10 @@ def main(argv=None):
     ap.add_argument("--vault", default=None)
     args = ap.parse_args(argv)
 
-    vault = args.vault or os.environ.get("TRACEBACK_VAULT") or DEFAULT_VAULT
+    vault = args.vault or os.environ.get("TERMINUS_VAULT") or DEFAULT_VAULT
     if not os.path.isdir(vault):
         print("vault not found: %s" % vault)
-        print("pass --vault /path/to/Obsidian Vault  (or set TRACEBACK_VAULT)")
+        print("pass --vault /path/to/Obsidian Vault  (or set TERMINUS_VAULT)")
         return 1
     args.vault = vault
 

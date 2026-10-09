@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-traceback_cli.py — TRACEBACK terminal edition.
+terminus_cli.py — TERMINUS terminal edition.
 
 Pure Python 3 standard library. No dependencies, no TUI framework.
 
 The app's heart is data/bundle.json, built by build_bundle.py from the three
-committed source banks. All game logic lives in traceback.py so this CLI and
-traceback_gui.py share one code path and cannot drift.
+committed source banks. All game logic lives in terminus.py so this CLI and
+terminus_gui.py share one code path and cannot drift.
 
 Modes:
     1) Daily Uplink    today's 10 questions, identical for everyone + share card
@@ -47,7 +47,7 @@ import tempfile
 import textwrap
 import time
 
-import traceback as tb
+import terminus as tb
 
 WIDTH = 78
 
@@ -111,7 +111,7 @@ def print_source(src, pal):
 
 def show_banner(pal):
     print()
-    print(pal.cyan("  TRACEBACK"))
+    print(pal.cyan("  TERMINUS"))
     print(pal.dim("  " + "-" * 26))
     print("  A+ 220-1101 / 220-1102 \u00b7 Network+ N10-009 \u00b7 Security+ SY0-701")
     print("  one bundle, four games, three drills")
@@ -498,7 +498,7 @@ def _print_share(day, results, pal):
     grid = "".join("\U0001F7E9" if ok else "\U0001F7E5" for _, ok in results)
     print(pal.bold("  Share your result (copy the lines below):"))
     print()
-    print("TRACEBACK Daily Uplink \u00b7 %s \u00b7 %d/%d" % (day.isoformat(), score, len(results)))
+    print("TERMINUS Daily Uplink \u00b7 %s \u00b7 %d/%d" % (day.isoformat(), score, len(results)))
     print(grid)
     print()
 
@@ -509,7 +509,7 @@ def _selftest_stats(args, needs_write=False):
     if args.stats is not None:
         return tb.load_stats(args.stats), args.stats
     if needs_write:
-        fd, path = tempfile.mkstemp(prefix="traceback-selftest-", suffix=".json")
+        fd, path = tempfile.mkstemp(prefix="terminus-selftest-", suffix=".json")
         os.close(fd)
         return tb.empty_stats(), path
     return None, None
@@ -638,7 +638,7 @@ def run_breach_selftest(bundle, pal, rng, game):
 # ---------------------------------------------------------------- entrypoint
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="TRACEBACK terminal quiz game")
+    ap = argparse.ArgumentParser(description="TERMINUS terminal quiz game")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--sector", default=None, metavar="GAME",
                     help="with --selftest: scripted Sector Sweep for a+1|a+2|net|sec")
@@ -663,14 +663,21 @@ def main(argv=None):
         print(pal.yellow("  note: bundle is older than a source bank - "
                          "consider re-running build_bundle.py"), file=sys.stderr)
 
-    stats_path = args.stats or os.path.join(
-        os.path.dirname(os.path.abspath(args.bundle)), "..", "stats.json")
+    if args.stats:
+        stats_path = args.stats
+    elif getattr(sys, "frozen", False):
+        # Frozen onefile: the script dir is a temp extraction dir, so persist
+        # stats to the per-user data dir instead.
+        stats_path = os.path.join(tb.default_data_dir(), "stats.json")
+    else:
+        stats_path = os.path.join(
+            os.path.dirname(os.path.abspath(args.bundle)), "..", "stats.json")
 
     if args.selftest:
         rng = random.Random(args.seed if args.seed is not None else 42)
         if args.sector is not None:
             if args.sector not in tb.GAMES:
-                print("traceback_cli.py: unknown game %r (expected %s)"
+                print("terminus_cli.py: unknown game %r (expected %s)"
                       % (args.sector, "|".join(tb.GAMES)))
                 return 2
             return run_sector_selftest(bundle, pal, rng, args.sector)
@@ -685,7 +692,7 @@ def main(argv=None):
             return run_review_selftest(bundle, pal, rng, stats, sp)
         if args.breach is not None:
             if args.breach not in tb.GAMES:
-                print("traceback_cli.py: unknown game %r (expected %s)"
+                print("terminus_cli.py: unknown game %r (expected %s)"
                       % (args.breach, "|".join(tb.GAMES)))
                 return 2
             return run_breach_selftest(bundle, pal, rng, args.breach)

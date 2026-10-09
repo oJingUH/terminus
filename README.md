@@ -1,24 +1,27 @@
-# TRACEBACK
+# TERMINUS
 
-A single 3D-styled quiz game that unifies three existing CompTIA quiz apps —
-CompTIA acronyms, Security+ and Network+ — into one hacker-aesthetic terminal
-experience.
+A single, hacker-styled quiz game that unifies three CompTIA study apps —
+A+ acronyms, Security+, and Network+ — behind one dimly lit room and a
+glowing terminal. Walk your pixel-art avatar up to the computer, log in with
+a persistent profile, and grind your way through every cert.
 
-TRACEBACK merges the three committed source banks into one generated bundle
-(`data/bundle.json`), then serves it through two front-ends (a pure-stdlib
-terminal edition and a PySide6 3D edition) that share one engine module
-(`traceback.py`) so they can never drift.
+TERMINUS merges the three source banks into one generated bundle
+(`data/bundle.json`) and serves it through two front-ends — a pure-stdlib
+terminal edition and a PySide6 room-explorer edition — that share one engine
+module (`terminus.py`) so they can never drift.
 
 ```
-traceback/
-  build_bundle.py             merge the three banks -> data/bundle.json
-  traceback.py                shared engine (loader, modes, grading, stats)
-  achievements.py             achievement defs + check logic
-  traceback_cli.py            terminal edition (stdlib, no TUI framework)
-  traceback_gui.py            3D edition (PySide6 / Qt6, QGraphicsView)
-  verify_bundle.py            strict integrity checker for the bundle
+terminus/
+  terminus.py                shared engine (loader, modes, grading, stats)
+  lair.py                    "The Lair" room shell + profile/login system
+  achievements.py            achievement defs + check logic
+  terminus_cli.py            terminal edition (stdlib, no TUI framework)
+  terminus_gui.py            room-explorer edition (PySide6 / Qt6)
+  build_bundle.py            merge the source banks -> data/bundle.json
+  verify_bundle.py           strict integrity checker for the bundle
   verify_negative_controls.py prove the verifier rejects mutations
-  data/bundle.json            generated bundle (committed)
+  data/bundle.json           generated bundle (committed)
+  packaging/                 PyInstaller build script + requirements
 ```
 
 ## Games
@@ -32,66 +35,79 @@ traceback/
   * Full Breach — timed exam over one cert
   * Player File — lifetime + per-domain + drill accuracy, streak, achievements
 
-## Build
+## The Lair & profiles
+
+The GUI opens into a pixel-art room: a dimly lit space with a glowing
+terminal in the middle. Walk to it with `WASD`/arrow keys, press `E` (or
+`Space`) when close, and log in. First time, create a profile (username +
+password); afterwards the same credentials restore your progress — stats,
+streaks, missed questions and per-domain accuracy.
+
+Passwords are salted and hashed with PBKDF2-HMAC-SHA256 (140k iterations)
+and are never stored as plaintext. Profiles live in a per-user data
+directory: `%LOCALAPPDATA%\TERMINUS` on Windows, `~/Library/Application
+Support/TERMINUS` on macOS, `~/.local/share/terminus` on Linux.
+
+## Run from source
+
+Requires Python 3.10+. The terminal edition needs only the standard library;
+the GUI needs PySide6.
 
 ```sh
-/usr/bin/python3 build_bundle.py
+pip install PySide6
+
+python terminus_cli.py          # terminal edition
+python terminus_gui.py          # room-explorer edition (needs a display)
 ```
 
-This reads the three source banks (read-only) and writes `data/bundle.json`,
-tagging every question with a `game` (`a+1` | `a+2` | `net` | `sec`) and a
-`domain` (1..5, null for the acronym bank). A CompTIA-acronyms question tagged
-with several exams is emitted once per exam tag, so a question tagged
-`[aplus1, aplus2]` appears under both games. `source` and `verify` are copied
-untouched.
+### Windows (no Python)
 
-## Run
+Grab the prebuilt `Terminus.exe` from the [latest release](../../releases) —
+it's a standalone executable, no Python install required. (Your profile
+saves to `%LOCALAPPDATA%\TERMINUS` and survives app restarts.)
+
+## Self-tests
 
 ```sh
-/usr/bin/python3 traceback_cli.py                # interactive terminal edition
-/usr/bin/python3 traceback_gui.py                # 3D edition (needs a display)
+python terminus_cli.py --selftest
+python terminus_cli.py --selftest --sector net
+python terminus_cli.py --selftest --cipher
+python terminus_cli.py --selftest --ports
+python terminus_cli.py --selftest --crypto
+python terminus_cli.py --selftest --review
+python terminus_cli.py --selftest --breach net
 
-# self-tests (all stdin-free)
-/usr/bin/python3 traceback_cli.py --selftest
-/usr/bin/python3 traceback_cli.py --selftest --sector net
-/usr/bin/python3 traceback_cli.py --selftest --cipher
-/usr/bin/python3 traceback_cli.py --selftest --ports
-/usr/bin/python3 traceback_cli.py --selftest --crypto
-/usr/bin/python3 traceback_cli.py --selftest --review
-/usr/bin/python3 traceback_cli.py --selftest --breach net
-
-# verify + negative controls
-/usr/bin/python3 verify_bundle.py
-/usr/bin/python3 verify_negative_controls.py
-
-# headless GUI screenshots
-QT_QPA_PLATFORM=offscreen /usr/bin/python3 traceback_gui.py \
-    --selftest --screenshot /home/ojinguh/traceback/preview
+# GUI self-test (headless), including the Lair + login flow
+QT_QPA_PLATFORM=offscreen python terminus_gui.py --selftest
 ```
 
-## Verify
+## Development
 
-`verify_bundle.py` mirrors the check classes in the source projects'
-`verify_bank.py`: token/cell-boundary grounding (never raw substring), answer
-mirror, per-game count floors, and per-bank id uniqueness. It resolves every
-citation against the Obsidian vault, remapping CompTIA-acronyms legacy paths to
-the `CompTIA/Abbreviations/` notes and prefixing Network+/Security+ citations.
+`data/bundle.json` is generated from three source banks (comptia-acronyms,
+security-quiz, network-quiz) that are read-only and live OUTSIDE this repo;
+the committed bundle is self-contained, so players never need them.
+`build_bundle.py` regenerates the bundle, and `verify_bundle.py` re-checks
+every citation against an Obsidian vault passed with `--vault` (a developer
+gate, not shipped to players):
 
-## Current state
+```sh
+python build_bundle.py
+python verify_bundle.py --vault "/path/to/Obsidian Vault"
+python verify_negative_controls.py
+```
 
-Working end-to-end:
+The committed bundle holds 2,486 questions (a+1=522, a+2=500, net=586,
+sec=878) and three drill tables (ports=22, crypto=44, acronyms=614).
 
-  * `build_bundle.py` merges 2,486 questions (a+1=522, a+2=500, net=586,
-    sec=878) and three drill tables (ports=22, crypto=44, acronyms=614).
-  * Every `traceback_cli.py` self-test exits 0.
-  * `verify_negative_controls.py` exits 0 — the verifier rejects all four
-    mutation shapes (answer-index flip, verify-token, source-section,
-    drill-entry).
-  * The GUI renders offscreen and writes non-empty PNGs (boot, question,
-    ACCESS GRANTED / TRACE DETECTED, achievements).
-  * The acronym bank is current with the vault notes as of the N10-009
-    Document Version 6.0 / SY0-701 Document Version 7.0 revisions (drift
-    corrected in comptia-acronyms 57debac).
+## Distribution
+
+Standalone executables for Windows, macOS and Linux are built by the
+`release` workflow whenever a `v*` tag is pushed. To build one locally:
+
+```sh
+pip install -r packaging/requirements.txt
+python packaging/build.py --version v1.0.0
+```
 
 ## License
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-traceback_gui.py — TRACEBACK 3D terminal-lure edition.
+terminus_gui.py — TERMINUS 3D terminal-lure edition.
 
-PySide6 / Qt6. All game logic lives in traceback.py, so this GUI and
-traceback_cli.py share one code path and cannot drift.
+PySide6 / Qt6. All game logic lives in terminus.py, so this GUI and
+terminus_cli.py share one code path and cannot drift.
 
 The "3D" is a QGraphicsView with a projective perspective transform: question
 panels are QGraphicsRectItems drawn in a scene, tilted and slowly rotated in
@@ -27,8 +27,8 @@ Flags:
     --stats PATH               explicit stats path
 
 Run offscreen for headless screenshots:
-    QT_QPA_PLATFORM=offscreen /usr/bin/python3 traceback_gui.py \
-        --selftest --screenshot /home/ojinguh/traceback/preview
+    QT_QPA_PLATFORM=offscreen /usr/bin/python3 terminus_gui.py \
+        --selftest --screenshot ./preview
 """
 
 import argparse
@@ -37,8 +37,9 @@ import os
 import random
 import sys
 
-import traceback as tb
+import terminus as tb
 import achievements as ach
+import lair
 
 from PySide6.QtCore import Qt, QTimer, QRectF
 from PySide6.QtGui import (QColor, QFont, QFontDatabase, QPainter, QPen,
@@ -238,16 +239,24 @@ def draw_line(scene, text, y, color=GREEN_DIM, size=12, x=None):
 class Game:
     """Drives the whole app: boot, question, feedback, achievements screens."""
 
-    def __init__(self, bundle, seed=None, screenshot_dir=None):
+    def __init__(self, bundle, seed=None, screenshot_dir=None,
+                 profile_user=None, store=None, given_profile_path=None):
         self.bundle = bundle
         self.rng = random.Random(seed if seed is not None else 42)
         self.screenshot_dir = screenshot_dir
+        self.profile_user = profile_user
+        self.store = store
+        self._given_profile_path = given_profile_path
         self.scene = Scene()
         self.view = TermView(self.scene)
         self.view.resize(WIDTH, HEIGHT)
         self.scene.setSceneRect(0, 0, WIDTH, HEIGHT)
         self.scene.set_click_handler(self._on_click)
-        self.stats = tb.empty_stats()
+        # stats come from the logged-in profile when there is one
+        if profile_user and store is not None:
+            self.stats = store.get_stats(profile_user)
+        else:
+            self.stats = tb.empty_stats()
         self.q_index = 0
         self.questions = tb.select_daily(bundle["questions"], self.rng, 10)
         self.current = None
@@ -255,6 +264,14 @@ class Game:
         self.flash = None
         self._shots = []
         self._breach_timer = None
+
+    def save_stats(self):
+        """Write-through: every stats mutation lands in the profile right away."""
+        if self.profile_user and self.store is not None:
+            self.store.set_stats(self.profile_user, self.stats)
+
+    def _profile_path(self):
+        return os.environ.get("TERMINUS_PROFILES") or self._given_profile_path
 
     # ---- screenshot helper ----
     def snap(self, name):
@@ -291,7 +308,7 @@ class Game:
         for i, (game, name, code) in enumerate(games):
             count = sum(1 for q in self.bundle["questions"] if q["game"] == game)
             self._clear()
-            draw_title(self.scene, "TRACEBACK BOOT", 60, GREEN, 26)
+            draw_title(self.scene, "TERMINUS BOOT", 60, GREEN, 26)
             draw_line(self.scene, "loading kernels...", 110, GREEN_DIM, 12)
             for j, (g2, n2, c2) in enumerate(games):
                 mark = "[ loaded ]" if j < i else "[        ]"
@@ -306,7 +323,7 @@ class Game:
             self.view.set_pose(6 * i)
             self.snap("01-boot-%d-%s.png" % (i, game))
         self._clear()
-        draw_title(self.scene, "TRACEBACK", 300, GREEN, 40)
+        draw_title(self.scene, "TERMINUS", 300, GREEN, 40)
         draw_line(self.scene, "ACCESS GRANTED", 370, GREEN, 22)
         draw_line(self.scene, "a+1=%d  a+2=%d  net=%d  sec=%d"
                   % tuple(sum(1 for q in self.bundle["questions"]
@@ -385,6 +402,7 @@ class Game:
         else:
             tb.record_mc(self.stats, q, False)
         tb.evaluate_achievements(self.stats)
+        self.save_stats()   # per-profile write-through
 
     def _flash_feedback(self, ok):
         self._clear()
@@ -416,6 +434,10 @@ class Game:
 
     # ---- selftest driver ----
     def selftest(self):
+        # the Lair leg runs first (scripted room walk + login/persist checks),
+        # then the original quiz leg below — both exit 0 or raise.
+        lair.run_lair_selftest(lair.LairStore(self._profile_path()),
+                               self.screenshot_dir, self._shots)
         self.boot()
         # answer the first question wrong, then two right, to exercise both
         # flashes and the streak bar
@@ -433,7 +455,7 @@ class Game:
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="TRACEBACK 3D terminal-lure quiz")
+    ap = argparse.ArgumentParser(description="TERMINUS 3D terminal-lure quiz")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--screenshot", default=None, metavar="DIR")
     ap.add_argument("--size", default=None, metavar="WxH",
@@ -441,13 +463,21 @@ def main(argv=None):
     ap.add_argument("--seed", type=int, default=None)
     ap.add_argument("--bundle", default=tb.DEFAULT_BUNDLE)
     ap.add_argument("--stats", default=None)
+    ap.add_argument("--profile-file", dest="profile_file", default=None,
+                    metavar="PATH",
+                    help="profiles.json path (default: user data dir, see "
+                         "terminus.default_data_dir)")
     args = ap.parse_args(argv)
 
     app = QApplication.instance() or QApplication(sys.argv)
 
     bundle = tb.load_bundle(args.bundle)
 
-    game = Game(bundle, seed=args.seed, screenshot_dir=args.screenshot)
+    if args.profile_file:
+        os.environ["TERMINUS_PROFILES"] = args.profile_file
+
+    game = Game(bundle, seed=args.seed, screenshot_dir=args.screenshot,
+                given_profile_path=args.profile_file)
 
     if args.size:
         try:
@@ -464,17 +494,40 @@ def main(argv=None):
         print("GUI SELF-TEST COMPLETE")
         return 0
 
-    # interactive: show the first question and run the loop
-    game.boot()
-    game.q_index = 0
-    game.show_question(game.questions[0])
+    # interactive: the Lair room first; after ACCESS GRANTED, show the first
+    # question and run the loop. All stats reads/writes go through the profile.
+    store = lair.LairStore(game._profile_path())
+
+    def enter_game(username):
+        game.profile_user = username
+        game.store = store
+        game.stats = store.get_stats(username)
+        game.boot()
+        game.q_index = 0
+        game.show_question(game.questions[0])
+        shell.view.hide()
+        game.view.show()
+
+    def logout_to_room():
+        """Logging out returns to the room (stats stay persisted per user)."""
+        game.save_stats()
+        game.view.hide()
+        shell.start(getattr(game, "profile_user", None))
+
+    shell = lair.Lair(store, args.screenshot, on_login=enter_game)
+    if args.size:
+        w, h = (int(x) for x in args.size.lower().split("x"))
+        shell.resize(w, h)
+        game.resize_window(w, h)
+    shell.start()
 
     # animate rotation
     timer = QTimer()
     timer.timeout.connect(game.view.rotate_step)
     timer.start(40)
 
-    game.view.show()
+    # NOTE: do NOT show game.view here. The Lair shell is the single visible
+    # window until login; enter_game() shows the game view and hides the shell.
     return app.exec()
 
 

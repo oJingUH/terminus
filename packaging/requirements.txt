@@ -1,0 +1,6 @@
+# Build-time only. The CLI itself needs nothing beyond the standard library.
+# The GUI needs PySide6; PyInstaller freezes both; Pillow lets PyInstaller
+# convert assets/icon.png to the platform icon format (.ico / .icns).
+PySide6==6.11.2
+pyinstaller==6.22.3
+pillow==12.3.0

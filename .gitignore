@@ -8,6 +8,15 @@ stats.json
 
 # GUI screenshots (regenerated)
 preview/
+preview_lair/
+
+# PyInstaller build output
+build/
+dist/
+*.spec
+
+# Local revert snapshots
+.revs/
 
 # OS / editor cruft
 .DS_Store

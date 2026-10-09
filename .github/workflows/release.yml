@@ -26,8 +26,6 @@ jobs:
         include:
           - os: ubuntu-24.04
           - os: windows-latest
-          - os: macos-latest      # Apple silicon
-          - os: macos-15-intel    # Intel Macs
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7

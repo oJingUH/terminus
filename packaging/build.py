@@ -8,7 +8,7 @@ smoke-test them, and pack them into one archive.
 
 Output: dist/terminus-<version>-<os>-<arch>.<zip|tar.gz> holding
     Terminus(.exe|.app)    the GUI (room shell + quiz)
-    terminus(.exe)         the terminal quiz
+    terminus-cli(.exe)     the terminal quiz
     LICENSE
 
 PyInstaller cannot cross-compile, so this runs once per target OS (the release
@@ -32,7 +32,7 @@ DIST = os.path.join(ROOT, "dist")
 WORK = os.path.join(ROOT, "build")
 ICON = os.path.join(ROOT, "assets", "icon.png")
 GUI_NAME = "Terminus"
-CLI_NAME = "terminus"
+CLI_NAME = "terminus-cli"
 EXE = ".exe" if sys.platform == "win32" else ""
 
 

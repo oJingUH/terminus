@@ -101,8 +101,8 @@ sec=878) and three drill tables (ports=22, crypto=44, acronyms=614).
 
 ## Distribution
 
-Standalone executables for Windows, macOS and Linux are built by the
-`release` workflow whenever a `v*` tag is pushed. To build one locally:
+Standalone executables for Windows and Linux are built by the `release`
+workflow whenever a `v*` tag is pushed. To build one locally:
 
 ```sh
 pip install -r packaging/requirements.txt

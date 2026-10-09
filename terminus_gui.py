@@ -40,6 +40,7 @@ import sys
 import terminus as tb
 import achievements as ach
 import lair
+import desktop
 
 from PySide6.QtCore import Qt, QTimer, QRectF
 from PySide6.QtGui import (QColor, QFont, QFontDatabase, QPainter, QPen,
@@ -145,6 +146,7 @@ class Scene(QGraphicsScene):
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
         self._click = None
+        self.on_key = None   # optional key handler (drill / player file)
 
     def set_click_handler(self, fn):
         self._click = fn
@@ -217,6 +219,15 @@ class TermView(QGraphicsView):
         self.set_pose((self._angle + 1.5) % 360,
                       self._parallax_x, self._parallax_y)
 
+    def keyPressEvent(self, event):
+        # Route keyboard to the scene's optional key handler (drill text
+        # entry / player-file return), falling back to the default behaviour.
+        sc = self.scene()
+        handler = getattr(sc, "on_key", None)
+        if handler is not None and handler(event):
+            return
+        super().keyPressEvent(event)
+
 
 def draw_title(scene, text, y=40, color=GREEN, size=22):
     t = QGraphicsSimpleTextItem(text)
@@ -264,6 +275,26 @@ class Game:
         self.flash = None
         self._shots = []
         self._breach_timer = None
+        # mode state (feature 2)
+        self.mode = None
+        self.mode_title = "DAILY UPLINK"
+        self._drill_pool = None
+        self._drill_index = 0
+        self._drill_kind = None
+        self._drill_active = False
+        self._drill_current = None
+        self._buffer = ""
+        self._last_feedback = None
+        self._fb_color = GREEN
+        self._round_results = []
+        self._pick_state = None
+        self._pick_target = None
+        self._game_panels = []
+        self._breach_remaining = 0
+        self._countdown_item = None
+        self._advance_timer = None
+        self._return_timer = None
+        self._mode_done_cb = None
 
     def save_stats(self):
         """Write-through: every stats mutation lands in the profile right away."""
@@ -335,10 +366,16 @@ class Game:
     def show_question(self, q):
         self._clear()
         self.current = q
-        draw_title(self.scene, "DAILY UPLINK", 30, GREEN, 18)
+        draw_title(self.scene, self.mode_title, 30, GREEN, 18)
         draw_line(self.scene, "Q%d/%d  [%s]  %s"
                   % (self.q_index + 1, len(self.questions),
                      tb.GAME_TAGS[q["game"]], q["difficulty"]), 70, GREEN_DIM, 11)
+        if self.mode == "breach":
+            self._countdown_item = draw_line(
+                self.scene, "TIME LEFT %d:%02d"
+                % divmod(self._breach_remaining, 60), 96, AMBER, 13)
+        else:
+            self._countdown_item = None
         # question text as a wrapped title
         words = q["question"].split()
         lines, cur = [], ""
@@ -388,6 +425,11 @@ class Game:
         self.snap("02-question.png")
 
     def _on_click(self, panel):
+        if self._pick_state == "game":
+            for gkey, p in self._game_panels:
+                if p is panel:
+                    self._choose_game(gkey)
+                    return
         for k, p in self.panels:
             if p is panel:
                 self.answer(k)
@@ -395,7 +437,6 @@ class Game:
 
     def answer(self, key):
         ok = (key == self._correct_key)
-        self._flash_feedback(ok)
         q = self.current
         if ok:
             tb.record_mc(self.stats, q, True)
@@ -403,6 +444,17 @@ class Game:
             tb.record_mc(self.stats, q, False)
         tb.evaluate_achievements(self.stats)
         self.save_stats()   # per-profile write-through
+        if self.mode is not None:
+            self._round_results.append((q, ok))
+            if self.mode == "breach":
+                # full breach: no per-question feedback until the end
+                self._advance_mode()
+            else:
+                self._flash_feedback(ok)
+                self._schedule_mode_advance()
+        else:
+            self._flash_feedback(ok)
+        return ok
 
     def _flash_feedback(self, ok):
         self._clear()
@@ -432,6 +484,339 @@ class Game:
         self.scene.addItem(self.overlay)
         self.snap("04-achievements.png")
 
+    # ---- mode engine (feature 2) --------------------------------------
+    def _wrap(self, text, width):
+        words = str(text).split()
+        lines, cur = [], ""
+        for w in words:
+            trial = (cur + " " + w).strip()
+            if len(trial) <= width:
+                cur = trial
+            else:
+                if cur:
+                    lines.append(cur)
+                cur = w
+        if cur:
+            lines.append(cur)
+        return lines or [""]
+
+    def set_mode_done_callback(self, fn):
+        self._mode_done_cb = fn
+
+    def launch(self, mode_key):
+        """Enter a game mode from the desktop hub."""
+        self.mode = mode_key
+        self._drill_active = False
+        self._buffer = ""
+        self._round_results = []
+        self._pick_state = None
+        self._game_panels = []
+        if mode_key == "daily":
+            day = datetime.date.today()
+            self.questions = tb.select_daily(self.bundle["questions"],
+                                             tb.daily_rng(day), 10)
+            self.mode_title = "DAILY UPLINK"
+            self.q_index = 0
+            self._next()
+        elif mode_key == "sector":
+            self._pick_target = "sector"
+            self._show_game_picker("SECTOR SWEEP")
+        elif mode_key == "breach":
+            self._pick_target = "breach"
+            self._show_game_picker("FULL BREACH")
+        elif mode_key == "recover":
+            self._start_recover()
+        elif mode_key in ("cipher", "ports", "crypto"):
+            self._start_drill(mode_key)
+        elif mode_key == "player":
+            self._show_player_file()
+
+    def _next(self):
+        if self._drill_active:
+            if self._drill_index < len(self._drill_pool):
+                self.show_drill_question(self._drill_pool[self._drill_index])
+            else:
+                self._end_mode()
+        else:
+            if self.q_index < len(self.questions):
+                self.show_question(self.questions[self.q_index])
+            else:
+                self._end_mode()
+
+    def _advance_mode(self):
+        if self._advance_timer is not None:
+            self._advance_timer.stop()
+        if not self._drill_active:
+            self.q_index += 1
+        self._next()
+
+    def _schedule_mode_advance(self):
+        if self._advance_timer is None:
+            self._advance_timer = QTimer()
+            self._advance_timer.setSingleShot(True)
+            self._advance_timer.timeout.connect(self._advance_mode)
+        self._advance_timer.start(1100)
+
+    def _schedule_return(self, ms=2500):
+        if self._return_timer is None:
+            self._return_timer = QTimer()
+            self._return_timer.setSingleShot(True)
+            self._return_timer.timeout.connect(self._finish_return)
+        self._return_timer.start(ms)
+
+    def _finish_return(self):
+        self.mode = None
+        self._drill_active = False
+        if self._mode_done_cb:
+            self._mode_done_cb()
+
+    def _stop_timers(self):
+        for t in (self._breach_timer, self._advance_timer, self._return_timer):
+            if t is not None:
+                t.stop()
+
+    def _end_mode(self):
+        self._stop_timers()
+        self.scene.on_key = None
+        was = self.mode
+        self.mode = None
+        self._drill_active = False
+        if was == "breach":
+            self._show_breach_summary()
+            self._schedule_return()
+        elif self._mode_done_cb:
+            self._mode_done_cb()
+
+    # -- game picker -----------------------------------------------------
+    def _show_game_picker(self, title):
+        self._clear()
+        draw_title(self.scene, title, 60, GREEN, 24)
+        draw_line(self.scene, "select a target cert:", 130, GREEN_DIM, 13)
+        self._pick_state = "game"
+        self._game_panels = []
+        for i, (name, gkey) in enumerate(tb.GAME_CHOICES):
+            p = Panel("%-24s %s" % (name, tb.GAME_TAGS[gkey]), w=520, h=56,
+                      key_label=str(i + 1))
+            p.setPos(WIDTH / 2 - 260, 200 + i * 68)
+            self.scene.addItem(p)
+            self._game_panels.append((gkey, p))
+        self.overlay = ScanlineOverlay(WIDTH, HEIGHT)
+        self.scene.addItem(self.overlay)
+        self.view.set_pose(6)
+        self.snap("05-pick-game.png")
+
+    def _choose_game(self, gkey):
+        self._pick_state = None
+        self._game_panels = []
+        if self._pick_target == "sector":
+            pool = tb.filter_game(self.bundle, gkey)
+            self.questions = self.rng.sample(pool, min(10, len(pool)))
+            self.mode_title = "SECTOR SWEEP"
+            self.mode = "sector"
+            self.q_index = 0
+            self._next()
+        elif self._pick_target == "breach":
+            pool = tb.filter_game(self.bundle, gkey)
+            self.questions = self.rng.sample(pool, min(50, len(pool)))
+            self.mode_title = "FULL BREACH"
+            self.mode = "breach"
+            self.q_index = 0
+            self._breach_remaining = 20 * 60
+            self._round_results = []
+            self._start_breach_timer()
+            self._next()
+
+    def _start_breach_timer(self):
+        if self._breach_timer is None:
+            self._breach_timer = QTimer()
+            self._breach_timer.timeout.connect(self._breach_tick)
+        self._breach_timer.start(1000)
+
+    def _breach_tick(self):
+        self._breach_remaining -= 1
+        if self._breach_remaining <= 0:
+            self._breach_timer.stop()
+            self._end_mode()
+        elif self._countdown_item is not None:
+            self._countdown_item.setText(
+                "TIME LEFT %d:%02d" % divmod(self._breach_remaining, 60))
+
+    # -- recover log -----------------------------------------------------
+    def _start_recover(self):
+        qs = tb.select_review(self.bundle, self.stats)
+        self.mode = "recover"
+        self.mode_title = "RECOVER LOG"
+        self.q_index = 0
+        if not qs:
+            self._clear()
+            draw_title(self.scene, "RECOVER LOG", 60, GREEN, 24)
+            draw_line(self.scene, "nothing to recover - no missed questions yet",
+                      200, GREEN_DIM, 13)
+            self.overlay = ScanlineOverlay(WIDTH, HEIGHT)
+            self.scene.addItem(self.overlay)
+            self.snap("07-recover-empty.png")
+            self._schedule_return()
+            return
+        self.questions = qs
+        self._next()
+
+    # -- drill modes (free-text entry) -----------------------------------
+    def _start_drill(self, mode_key):
+        kind = {"cipher": "acronyms", "ports": "ports", "crypto": "crypto"}[mode_key]
+        table = self.bundle["drill_tables"][kind]
+        if kind == "acronyms":
+            table = tb.filter_scope(table, None)
+        items = tb.build_drill_items(table, kind)
+        items = tb.select_drill_items(items, self.rng, 10)
+        self._drill_pool = items
+        self._drill_index = 0
+        self._drill_kind = kind
+        self._drill_active = True
+        self.mode_title = tb.KIND_TITLES[kind]
+        self._buffer = ""
+        self._last_feedback = None
+        self._next()
+
+    def show_drill_question(self, item):
+        self._drill_current = item
+        self._buffer = ""
+        self._last_feedback = None
+        self._redraw_drill()
+
+    def _redraw_drill(self):
+        item = self._drill_current
+        self._clear()
+        draw_title(self.scene, self.mode_title, 40, GREEN, 22)
+        draw_line(self.scene, "%d/%d  [%s]"
+                  % (self._drill_index + 1, len(self._drill_pool),
+                     tb.direction_label(item["direction"])), 90, GREEN_DIM, 11)
+        y = 150
+        for ln in self._wrap(item["prompt"], 64):
+            draw_line(self.scene, ln, y, QColor("#d0ffd8"), 13)
+            y += 26
+        y += 14
+        draw_line(self.scene, ">", y, GREEN_DIM, 13, x=140)
+        shown = self._buffer + "\u2588"
+        draw_line(self.scene, shown, y, GREEN, 13, x=170)
+        if self._last_feedback:
+            draw_line(self.scene, self._last_feedback, y + 30, self._fb_color,
+                      12, x=170)
+        self.overlay = ScanlineOverlay(WIDTH, HEIGHT)
+        self.scene.addItem(self.overlay)
+        self.scene.on_key = self._drill_key
+
+    def _drill_key(self, event):
+        k = event.key()
+        if k in (Qt.Key_Return, Qt.Key_Enter):
+            self._drill_submit()
+            return True
+        if k == Qt.Key_Backspace:
+            self._buffer = self._buffer[:-1]
+            self._redraw_drill()
+            return True
+        if k == Qt.Key_Escape:
+            self._end_mode()
+            return True
+        text = event.text()
+        if text and text.isprintable():
+            self._buffer = (self._buffer + text)[-60:]
+            self._redraw_drill()
+            return True
+        return False
+
+    def _drill_submit(self):
+        item = self._drill_current
+        raw = self._buffer
+        self._buffer = ""
+        if raw.strip().lower() in ("q", "quit"):
+            self._end_mode()
+            return
+        correct, correct_answer, _, _ = tb.grade_drill(item, raw)
+        tb.record_drill(self.stats, self._drill_kind, item["id"], correct)
+        tb.evaluate_achievements(self.stats)
+        self.save_stats()
+        self._round_results.append((item, correct))
+        self._last_feedback = ("ACCESS GRANTED" if correct
+                               else "TRACE DETECTED  ->  %s" % correct_answer)
+        self._fb_color = GREEN if correct else RED
+        self._redraw_drill()
+        self._drill_index += 1
+        self._schedule_mode_advance()
+
+    # -- player file -----------------------------------------------------
+    def _show_player_file(self):
+        self.mode = "player"
+        self._clear()
+        draw_title(self.scene, "PLAYER FILE", 30, GREEN, 22)
+        lt = self.stats["lifetime"]
+        tot, corr = lt["total"], lt["correct"]
+        acc = (100.0 * corr / tot) if tot else 0.0
+        y = 90
+        for r in ("lifetime accuracy  : %d/%d  (%.1f%%)" % (corr, tot, acc),
+                  "current streak    : %d" % self.stats["current_streak"],
+                  "best streak       : %d" % self.stats["best_streak"],
+                  "missed questions  : %d" % len(self.stats["missed_ids"])):
+            draw_line(self.scene, r, y, GREEN_DIM, 13, x=140)
+            y += 28
+        y += 8
+        draw_line(self.scene, "per-domain accuracy:", y, GREEN, 13, x=140)
+        y += 26
+        for d in tb.DOMAIN_KEYS:
+            b = self.stats["per_domain"][d]
+            draw_line(self.scene, "  %-10s %d/%d"
+                      % (tb.DOMAIN_NAMES[d], b["correct"], b["total"]),
+                      y, GREEN_DIM, 12, x=140)
+            y += 24
+        y += 8
+        for key, label in (("ports", "Port Scanner"), ("acronyms", "Cipher Grind"),
+                           ("crypto", "Crypto Vault")):
+            b = self.stats[key]
+            draw_line(self.scene, "  %-14s %d/%d" % (label, b["correct"], b["total"]),
+                      y, GREEN_DIM, 12, x=140)
+            y += 24
+        y += 8
+        draw_line(self.scene, "achievements: %d unlocked"
+                  % len(self.stats["achievements"]), y, GREEN, 13, x=140)
+        y += 26
+        for aid in self.stats["achievements"]:
+            for a in ach.ACHIEVEMENTS:
+                if a["id"] == aid:
+                    draw_line(self.scene, "  %s %s" % (a["glyph"], a["name"]),
+                              y, GREEN_DIM, 12, x=140)
+                    y += 22
+        self.overlay = ScanlineOverlay(WIDTH, HEIGHT)
+        self.scene.addItem(self.overlay)
+        self.scene.on_key = self._player_key
+        self.snap("08-player-file.png")
+
+    def _player_key(self, event):
+        k = event.key()
+        if k in (Qt.Key_Return, Qt.Key_Enter, Qt.Key_Escape, Qt.Key_Backspace):
+            self._end_mode()
+            return True
+        return False
+
+    # -- breach summary --------------------------------------------------
+    def _show_breach_summary(self):
+        self._clear()
+        total = len(self._round_results)
+        score = sum(1 for _, ok in self._round_results if ok)
+        draw_title(self.scene, "FULL BREACH RESULTS", 60, GREEN, 24)
+        draw_line(self.scene, "score: %d/%d  (%.0f%%)"
+                  % (score, total, 100.0 * score / total if total else 0.0),
+                  180, GREEN, 16)
+        y = 240
+        for q, ok in self._round_results:
+            if ok:
+                continue
+            draw_line(self.scene, "- %s" % q["question"][:58], y, RED, 12, x=140)
+            draw_line(self.scene, "  -> %s" % q["answer_text"], y + 20,
+                      GREEN_DIM, 11, x=160)
+            y += 44
+        self.overlay = ScanlineOverlay(WIDTH, HEIGHT)
+        self.scene.addItem(self.overlay)
+        self.snap("09-breach-results.png")
+
     # ---- selftest driver ----
     def selftest(self):
         # the Lair leg runs first (scripted room walk + login/persist checks),
@@ -451,7 +836,135 @@ class Game:
         self.show_question(self.questions[2])
         self.answer(self._correct_key)
         self.show_achievements()
+        run_desktop_selftest(self.bundle, self.screenshot_dir, self._shots)
         return self._shots
+
+
+def run_desktop_selftest(bundle, screenshot_dir=None, shots=None):
+    """Scripted desktop-hub leg: login-with-CRT -> desktop -> daily -> drill
+    -> player file -> logout. Uses a temp profile store, never the real one."""
+    import shutil
+    import tempfile
+    out = []
+
+    def check(name, cond):
+        out.append(name)
+        if not cond:
+            raise SystemExit("DESKTOP SELF-TEST FAILED: %s" % name)
+
+    tmp = tempfile.mkdtemp(prefix="terminus-desktop-")
+    live = lair.LairStore(os.path.join(tmp, "profiles.json"))
+    live.create("selftest_user", "pw1234")
+
+    g = Game(bundle, seed=42, screenshot_dir=screenshot_dir,
+             profile_user="selftest_user", store=live)
+    shell = lair.Lair(live, screenshot_dir)
+    desk = desktop.Desktop(live, screenshot_dir)
+    seen = {}
+
+    def enter_desktop(username):
+        g.profile_user = username
+        g.store = live
+        g.stats = live.get_stats(username)
+        shell.view.hide()
+        desk.show(username)
+        seen["desktop"] = True
+
+    def launch_mode(m):
+        desk.hide()
+        g.view.show()
+        g.launch(m)
+
+    def return_to_desktop():
+        g.save_stats()
+        g.view.hide()
+        if g.profile_user:
+            desk.show(g.profile_user)
+
+    def logout():
+        g.save_stats()
+        g.view.hide()
+        desk.hide()
+        shell.start(g.profile_user)
+        seen["room"] = True
+
+    shell.on_login = enter_desktop
+    desk.on_launch = launch_mode
+    desk.on_logout = logout
+    desk.on_poweroff = lambda: None
+    g.set_mode_done_callback(return_to_desktop)
+
+    # 1. login with CRT overlay present
+    shell.room.build(username="selftest_user")
+    shell.view.setScene(shell.room)
+    shell.open_login()
+    check("login CRT overlay + bezel present",
+          shell.login.crt is not None and shell.login.bezel is not None)
+    shell.login.buffer = "selftest_user"
+    shell.login.blink = True
+    shell.login._redraw()
+    if screenshot_dir:
+        shots.append(shell.login_snap("10-login-crt.png"))
+    shell.login.submit_username()
+    shell.login.buffer = "pw1234"
+    shell.login.event_submit()
+    check("login -> ACCESS GRANTED", shell.login.result == "selftest_user")
+    shell._handoff()
+    check("post-login shows the desktop", seen.get("desktop") is True
+          and desk.scene is not None)
+    check("desktop renders 8 icons", len(desk.scene.icons) == 8)
+    check("desktop taskbar + clock render", desk.scene.taskbar is not None
+          and desk.scene.clock_item is not None
+          and desk.scene.user_item is not None)
+    check("desktop CRT overlay + bezel present",
+          desk.scene.crt is not None and desk.scene.bezel is not None)
+    if screenshot_dir:
+        shots.append(desk.snap("11-desktop.png"))
+
+    # 3. launch Daily Uplink + answer one question
+    launch_mode("daily")
+    check("daily uplink shows a question", g.mode == "daily"
+          and g.current is not None)
+    check("daily answer graded + recorded",
+          g.answer(g._correct_key) is True
+          and g.stats["lifetime"]["total"] >= 1)
+    g._advance_mode()
+
+    # 4. drill mode (Port Scanner) with typed input
+    launch_mode("ports")
+    check("drill shows a prompt", g._drill_active
+          and g._drill_current is not None)
+    g._buffer = g._drill_current["answer"]
+    g._drill_submit()
+    check("drill typed answer graded correct",
+          g._round_results and g._round_results[-1][1] is True)
+    check("drill recorded to profile stats", g.stats["ports"]["total"] >= 1)
+    if screenshot_dir:
+        g._drill_index = 0
+        g.show_drill_question(g._drill_pool[0])
+        g.snap("12-drill.png")
+        shots.append(os.path.join(screenshot_dir, "12-drill.png"))
+    g._end_mode()
+
+    # 5. Player File
+    launch_mode("player")
+    check("player file shown", g.mode == "player")
+    if screenshot_dir:
+        g.snap("13-player-file.png")
+        shots.append(os.path.join(screenshot_dir, "13-player-file.png"))
+    g._end_mode()
+
+    # 6. log out back to the room
+    logout()
+    check("logout returns to the room", seen.get("room") is True
+          and shell.view.scene() is shell.room)
+
+    print("DESKTOP: login-CRT -> desktop -> daily -> drill -> player file "
+          "-> logout, all green")
+    for line in out:
+        print("  desktop check ok: %s" % line)
+    shutil.rmtree(tmp, ignore_errors=True)
+    return True
 
 
 def main(argv=None):
@@ -494,31 +1007,47 @@ def main(argv=None):
         print("GUI SELF-TEST COMPLETE")
         return 0
 
-    # interactive: the Lair room first; after ACCESS GRANTED, show the first
-    # question and run the loop. All stats reads/writes go through the profile.
+    # interactive: the Lair room first; after ACCESS GRANTED the desktop hub
+    # shows. Modes open in the game view and return to the desktop on close.
     store = lair.LairStore(game._profile_path())
+    desk = desktop.Desktop(store, args.screenshot)
 
-    def enter_game(username):
+    def enter_desktop(username):
         game.profile_user = username
         game.store = store
         game.stats = store.get_stats(username)
-        game.boot()
-        game.q_index = 0
-        game.show_question(game.questions[0])
         shell.view.hide()
+        desk.show(username)
+
+    def launch_mode(mode_key):
+        desk.hide()
         game.view.show()
+        game.launch(mode_key)
+
+    def return_to_desktop():
+        game.save_stats()
+        game.view.hide()
+        if getattr(game, "profile_user", None):
+            desk.show(game.profile_user)
 
     def logout_to_room():
         """Logging out returns to the room (stats stay persisted per user)."""
         game.save_stats()
         game.view.hide()
+        desk.hide()
         shell.start(getattr(game, "profile_user", None))
 
-    shell = lair.Lair(store, args.screenshot, on_login=enter_game)
+    game.set_mode_done_callback(return_to_desktop)
+    desk.on_launch = launch_mode
+    desk.on_logout = logout_to_room
+    desk.on_poweroff = lambda: app.quit()
+
+    shell = lair.Lair(store, args.screenshot, on_login=enter_desktop)
     if args.size:
         w, h = (int(x) for x in args.size.lower().split("x"))
         shell.resize(w, h)
         game.resize_window(w, h)
+        desk.resize(w, h)
     shell.start()
 
     # animate rotation

@@ -38,6 +38,7 @@ import secrets
 import math
 
 import terminus as tb
+import crt
 
 from PySide6.QtCore import Qt, QRectF
 from PySide6.QtGui import QColor, QBrush, QPainter, QPen, QPixmap, \
@@ -764,6 +765,11 @@ class LoginScene(QGraphicsScene):
         self.blink = True
         self.lines = {}             # y -> item
         self.prompt_items = []
+        # CRT monitor effect (feature 1)
+        self.crt = None
+        self.bezel = None
+        self._crt_enabled = True
+        self._crt_timer = None
 
     # -- rendering ---------------------------------------------------------
     def _redraw(self):
@@ -810,6 +816,38 @@ class LoginScene(QGraphicsScene):
                          HEIGHT / 2 - 60)
             draw_label(self, "welcome, %s — uplink established" % self.username,
                        WIDTH / 2 - 150, HEIGHT / 2, 13, GHOST_DIM)
+        self._add_crt()
+
+    # -- CRT effect (feature 1) -------------------------------------------
+    def _add_crt(self):
+        """(Re)add the CRT overlay + bezel on top of the login content."""
+        if not self._crt_enabled:
+            return
+        if self.crt is None:
+            self.crt = crt.CRTOverlay(WIDTH - 2 * crt.BEZEL, HEIGHT - 2 * crt.BEZEL)
+            self.crt.setPos(crt.BEZEL, crt.BEZEL)
+            self.crt.setZValue(1000)
+            self.bezel = crt.CRTBezel(WIDTH, HEIGHT)
+        self.addItem(self.bezel)
+        self.addItem(self.crt)
+
+    def start_crt(self):
+        self._crt_enabled = True
+        self._redraw()
+        if self._crt_timer is None:
+            from PySide6.QtCore import QTimer
+            self._crt_timer = QTimer()
+            self._crt_timer.timeout.connect(self._crt_tick)
+        self._crt_timer.start(50)
+
+    def stop_crt(self):
+        self._crt_enabled = False
+        if self._crt_timer is not None:
+            self._crt_timer.stop()
+
+    def _crt_tick(self):
+        if self.crt is not None:
+            self.crt.tick()
 
     def _set_error(self, text):
         self.error = text
@@ -881,6 +919,9 @@ class LoginScene(QGraphicsScene):
         self.error = ""
         self.result = self.username
         self._redraw()
+        # hand off to the Lair (ACCESS GRANTED flash -> on_login) when wired.
+        if self.on_success is not None:
+            self.on_success(self.result)
 
     # -- input ------------------------------------------------------------
     def keyPressEvent(self, event):
@@ -985,6 +1026,7 @@ class Lair:
     def start(self, username=None):
         self.room.build(username)
         self.view.setScene(self.room)
+        self.login.stop_crt()
         self._fit()
         if self.timer is None:
             from PySide6.QtCore import QTimer
@@ -1009,6 +1051,7 @@ class Lair:
             self.timer.stop()
         self.room.release_all()
         self.login.start()
+        self.login.start_crt()
         self.view.setScene(self.login)
         self.login.blink = True
 

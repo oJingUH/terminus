@@ -299,15 +299,15 @@ def glow_pixmap(size=840):
     pm = _blank(size, size)
     p = QPainter(pm)
     g = QRadialGradient(size / 2.0, size / 2.0, size / 2.0)
-    g.setColorAt(0.0, QColor(120, 255, 170, 255))
-    g.setColorAt(0.10, QColor(0, 255, 102, 215))
-    g.setColorAt(0.30, QColor(0, 255, 102, 150))
+    g.setColorAt(0.0, QColor(0, 210, 110, 80))
+    g.setColorAt(0.10, QColor(0, 255, 102, 62))
+    g.setColorAt(0.30, QColor(0, 255, 102, 42))
     # thin darken seam = CRT flicker banding, deliberately not smoothed
-    g.setColorAt(0.42, QColor(0, 210, 84, 120))
-    g.setColorAt(0.48, QColor(0, 255, 102, 130))
+    g.setColorAt(0.42, QColor(0, 210, 84, 30))
+    g.setColorAt(0.48, QColor(0, 255, 102, 34))
     # second, weaker ripple = visible green bloom ring on the floor
-    g.setColorAt(0.62, QColor(0, 255, 102, 60))
-    g.setColorAt(0.70, QColor(0, 255, 102, 30))
+    g.setColorAt(0.62, QColor(0, 255, 102, 16))
+    g.setColorAt(0.70, QColor(0, 255, 102, 8))
     g.setColorAt(1.0, QColor(0, 150, 60, 0))
     p.fillRect(0, 0, size, size, QBrush(g))
     p.end()
@@ -360,13 +360,13 @@ def desk_computer_pixmap():
 # 12x16 hero sprite matrixes; flat palette, one char per cell ("." empty).
 # eyes "e", skin "s", hair "h", coat "c", shirt "w", jeans "j", boots "b".
 SPRITE_PAL = {
-    "h": QColor("#3a2a1e"),
-    "s": QColor("#c99268"),
-    "e": QColor("#141210"),
-    "c": QColor("#3a5f8a"),
-    "w": QColor("#d9d2c7"),
-    "j": QColor("#2e3c60"),
-    "b": QColor("#241812"),
+    "h": QColor("#131b16"),   # hood (dark green-black)
+    "s": QColor("#bd8a5f"),   # skin, shadowed by the hood
+    "e": QColor("#39ff6f"),   # eyes — neon green glow
+    "c": QColor("#1c2822"),   # hoodie body
+    "w": QColor("#39ff6f"),   # neon green accent (drawstring / chest logo)
+    "j": QColor("#14181c"),   # dark pants
+    "b": QColor("#0b0d0f"),   # boots
 }
 SPRITES = {
     ("down", 0): (
@@ -578,7 +578,9 @@ class RoomScene(QGraphicsScene):
         cx, cy = COMPUTER_CENTER
         size = self.glow.pixmap().width()
         self.glow.setPos(cx - size / 2.0, cy - size / 2.0)
-        self.glow.setZValue(5)
+        # Behind the desk (z 0) and text, in front of the room art (z -10):
+        # lights the floor/wall without washing out the monitor or labels.
+        self.glow.setZValue(-5)
         self.addItem(self.glow)
         self.player = QGraphicsPixmapItem(sprite_pixmap("down", 0))
         self.player.setZValue(10)
@@ -728,8 +730,8 @@ class RoomScene(QGraphicsScene):
         # CRT glow: sine pulse; brighter as the character approaches
         phase = math.sin(self.ticks / 12.0)
         near = self.near_desk()
-        base = 0.62 if near else 0.46
-        amp = 0.30 if near else 0.16
+        base = 0.40 if near else 0.26
+        amp = 0.10 if near else 0.06
         self.glow.setOpacity(base + amp * (0.5 + 0.5 * phase))
         self.hint.setVisible(near)
 

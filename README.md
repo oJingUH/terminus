@@ -48,6 +48,13 @@ and are never stored as plaintext. Profiles live in a per-user data
 directory: `%LOCALAPPDATA%\TERMINUS` on Windows, `~/Library/Application
 Support/TERMINUS` on macOS, `~/.local/share/terminus` on Linux.
 
+## Settings
+
+The desktop's start menu has a **Settings** entry with a resolution picker:
+800x500 up to **1920x1080**. The choice resizes the window and persists to
+`<data-dir>/settings.json`, so it survives restarts. Non-3:2 sizes letterbox
+the fixed scene with black bars.
+
 ## Run from source
 
 Requires Python 3.10+. The terminal edition needs only the standard library;

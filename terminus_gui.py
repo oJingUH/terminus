@@ -33,6 +33,7 @@ Run offscreen for headless screenshots:
 
 import argparse
 import datetime
+import json
 import os
 import random
 import sys
@@ -59,6 +60,35 @@ AMBER = QColor("#ffb454")
 
 WIDTH = 1200
 HEIGHT = 800
+
+SETTINGS_FILE = os.path.join(tb.default_data_dir(), "settings.json")
+
+
+def load_settings():
+    """Read settings.json, returning {} on any problem (never crash the app)."""
+    try:
+        with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        res = data.get("resolution")
+        if isinstance(res, list) and len(res) == 2:
+            return {"resolution": [int(res[0]), int(res[1])]}
+    except (OSError, ValueError, TypeError):
+        pass
+    return {}
+
+
+def save_settings(data):
+    """Atomic write of settings.json; silently ignore failures."""
+    try:
+        os.makedirs(os.path.dirname(SETTINGS_FILE), exist_ok=True)
+        tmp = SETTINGS_FILE + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, SETTINGS_FILE)
+    except OSError:
+        pass
 
 
 def mono_font(size):
@@ -1043,11 +1073,27 @@ def main(argv=None):
     desk.on_poweroff = lambda: app.quit()
 
     shell = lair.Lair(store, args.screenshot, on_login=enter_desktop)
-    if args.size:
-        w, h = (int(x) for x in args.size.lower().split("x"))
+
+    # black letterbox background so a non-3:2 resolution shows black bars
+    # instead of white when the fixed scene is fit-scaled.
+    shell.view.setBackgroundBrush(QBrush(QColor("#000000")))
+    game.view.setBackgroundBrush(QBrush(QColor("#000000")))
+
+    def apply_resolution(w, h):
         shell.resize(w, h)
         game.resize_window(w, h)
         desk.resize(w, h)
+        save_settings({"resolution": [w, h]})
+
+    desk.on_resolution = apply_resolution
+
+    if args.size:
+        w, h = (int(x) for x in args.size.lower().split("x"))
+        apply_resolution(w, h)
+    else:
+        saved = load_settings().get("resolution")
+        if saved:
+            apply_resolution(saved[0], saved[1])
     shell.start()
 
     # animate rotation

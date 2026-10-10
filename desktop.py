@@ -58,6 +58,16 @@ MODES = [
     ("player", "Player File"),
 ]
 
+# window resolutions offered in Settings (label, width, height)
+RESOLUTIONS = [
+    ("800 x 500", 800, 500),
+    ("960 x 600", 960, 600),
+    ("1200 x 800", 1200, 800),
+    ("1440 x 900", 1440, 900),
+    ("1680 x 1050", 1680, 1050),
+    ("1920 x 1080", 1920, 1080),
+]
+
 
 def mono_font(size):
     f = QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont)
@@ -295,6 +305,7 @@ class DesktopScene(QGraphicsScene):
         self.on_launch = None
         self.on_logout = None
         self.on_poweroff = None
+        self.on_resolution = None
         self.taskbar = None
         self.clock_item = None
         self.user_item = None
@@ -404,7 +415,15 @@ class DesktopScene(QGraphicsScene):
             self._open_menu()
 
     def _open_menu(self):
-        items = list(MODES) + [("logout", "Log Out"), ("poweroff", "Power Off")]
+        items = list(MODES) + [("settings", "Settings"),
+                               ("logout", "Log Out"), ("poweroff", "Power Off")]
+        self._show_menu_rows(items)
+
+    def _open_resolutions(self):
+        self._show_menu_rows(
+            [("res:%d:%d" % (w, h), label) for label, w, h in RESOLUTIONS])
+
+    def _show_menu_rows(self, items):
         row_h = 30
         mw = 250
         mh = len(items) * row_h + 8
@@ -434,7 +453,14 @@ class DesktopScene(QGraphicsScene):
         self._menu_rows = []
 
     def _dispatch(self, key):
-        if key == "logout":
+        if key == "settings":
+            self._open_resolutions()
+        elif key.startswith("res:"):
+            _, w, h = key.split(":")
+            self._close_menu()
+            if self.on_resolution:
+                self.on_resolution(int(w), int(h))
+        elif key == "logout":
             if self.on_logout:
                 self.on_logout()
         elif key == "poweroff":
@@ -563,6 +589,7 @@ class Desktop:
         self.on_launch = None
         self.on_logout = None
         self.on_poweroff = None
+        self.on_resolution = None
 
     def show(self, username):
         if self.scene is not None:
@@ -572,6 +599,7 @@ class Desktop:
         self.scene.on_launch = self.on_launch
         self.scene.on_logout = self.on_logout
         self.scene.on_poweroff = self.on_poweroff
+        self.scene.on_resolution = self.on_resolution
         self.view.setScene(self.scene)
         self._fit()
         self.scene.start()

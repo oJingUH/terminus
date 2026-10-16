@@ -9,7 +9,8 @@ Screens:
     room      dimly-lit room drawn from procedural QPixmap tiles: dark
               checkered floor, darker back wall, warm radial vignette.
               Walk the character (WASD/arrows) to the glowing computer on
-              the desk, press E or Space.
+              the desk, press E or Space. A corner SETTINGS button opens
+              the resolution menu pre-login (on_resolution callback).
     login     terminal-styled overlay: USERNAME then PASSWORD (echoed as
               *). Existing name -> log in; new name -> create confirm,
               then password twice. Inline red errors, blinking block
@@ -39,16 +40,19 @@ import math
 
 import terminus as tb
 import crt
+from desktop import RESOLUTIONS   # the one shared resolution list; desktop
+                                  # imports stdlib+crt only -> no import cycle
 
 from PySide6.QtCore import Qt, QRectF
 from PySide6.QtGui import QColor, QBrush, QPainter, QPen, QPixmap, \
     QRadialGradient
-from PySide6.QtWidgets import (QApplication, QGraphicsScene, QGraphicsView,
-                               QGraphicsRectItem, QGraphicsSimpleTextItem,
+from PySide6.QtWidgets import (QApplication, QFrame, QGraphicsScene,
+                               QGraphicsView, QGraphicsRectItem,
+                               QGraphicsSimpleTextItem,
                                QGraphicsPixmapItem)
 
-WIDTH = 1200
-HEIGHT = 800
+WIDTH = 1920
+HEIGHT = 1080
 
 # Cold dark room palette (near-black + neon green glow accent).
 FLOOR_A = QColor("#0b0908")
@@ -64,10 +68,13 @@ NEON_GREEN = QColor("#00ff66")   # phosphor green: G >> R, B
 WALL_SPLIT = int(HEIGHT * 0.16)
 
 CELL = 26                      # floor tile grid size
-DESK_RECT = QRectF(500, 330, 180, 120)     # collision box for desk+computer
+DESK_RECT = QRectF((WIDTH - 180) / 2.0, HEIGHT * 0.4125, 180, 120)
+                               # collision box for desk+computer; centered on
+                               # WIDTH, y keeps the old 330/800 canvas pitch
 Computer_CENTER = None  # computed from DESK_RECT at import time
 COMPUTER_CENTER = (DESK_RECT.center().x() + 6, DESK_RECT.top() + 34)
-HINT_RANGE = 220               # px; closer than this shows "E - interact"
+HINT_RANGE = int(HEIGHT * 0.275)  # px (220 at the old 800px canvas); closer
+                                  # than this shows "E - interact"
 LABEL_PT = 12                  # status label floor demanded by product rules
 PBKDF2_ITERS = 140000          # brief floor is 120k
 
@@ -532,6 +539,41 @@ def sprite_pixmap(direction, frame):
     return scale_nearest(pm, SPRITE_SCALE)
 
 
+# ---------------------------------------------------- settings control
+
+# Pre-login resolution picker on the room screen. Mirrors desktop.py's
+# post-login start-menu pattern (StartButton / _show_menu_rows / _dispatch)
+# without touching that file; the seven offered resolutions come from the
+# shared desktop.RESOLUTIONS list so the two menus can never drift.
+SETTINGS_BTN_W = 118
+SETTINGS_BTN_H = 32
+MENU_ROW_H = 30
+MENU_W = 250
+SETTINGS_BTN_BG = QColor("#0b3d1c")   # same palette family as the desktop hub
+MENU_BG = QColor("#0a1510")
+MENU_EDGE = QColor("#1a8f3a")
+MENU_TXT = QColor("#9fffc0")
+
+
+class SettingsButton(QGraphicsRectItem):
+    """Corner button on the room screen; opens the resolution menu."""
+
+    def __init__(self, w=SETTINGS_BTN_W, h=SETTINGS_BTN_H, on_click=None):
+        super().__init__(0, 0, w, h)
+        self.on_click = on_click
+        self.setBrush(QBrush(SETTINGS_BTN_BG))
+        self.setPen(QPen(MENU_EDGE, 1))
+        self._text = QGraphicsSimpleTextItem("SETTINGS", self)
+        self._text.setFont(mono_font(11))
+        self._text.setBrush(QBrush(NEON_GREEN))
+        self._text.setPos(14, 8)
+
+    def mousePressEvent(self, event):
+        if self.on_click:
+            self.on_click()
+        event.accept()
+
+
 # --------------------------------------------------------------- room
 
 class RoomScene(QGraphicsScene):
@@ -553,6 +595,11 @@ class RoomScene(QGraphicsScene):
         self.ticks = 0
         self.username = None
         self.on_interact = None   # set by Lair (opens login overlay)
+        self.on_resolution = None # set by Lair (window resize), None default
+        self.settings_button = None   # re-created by build(): clear() deletes it
+        self.menu = None              # open menu backdrop item, else None
+        self._menu_rows = []          # [(key, QRectF), ...] while menu open
+        self._menu_items = []         # every scene item the open menu added
         self.player = None
         self.glow = None
         self.hint = None
@@ -593,6 +640,76 @@ class RoomScene(QGraphicsScene):
                                  40, 24, 13, QColor("#d0ffd8"))
         draw_label(self, "WASD / arrows to move     E at the computer",
                    40, HEIGHT - 34, 11, QColor("#5a6b5a"))
+        # Settings button (re-created every build: the clear() above deletes
+        # all items, so anything added only in __init__ would vanish on the
+        # first start()/rebuild — this is the rebuild-safe spot).
+        self.settings_button = SettingsButton(on_click=self.toggle_settings)
+        self.settings_button.setPos(24, HEIGHT - SETTINGS_BTN_H - 24)
+        self.settings_button.setZValue(40)   # above room art (-10) / bg (-20)
+        self.addItem(self.settings_button)
+
+    # -- settings menu -----------------------------------------------------
+    def toggle_settings(self):
+        if self.menu is not None:
+            self._close_menu()
+        else:
+            self.open_settings()
+
+    def open_settings(self):
+        self._show_menu_rows(
+            [("res:%d:%d" % (w, h), label) for label, w, h in RESOLUTIONS])
+
+    def _show_menu_rows(self, items):
+        self._close_menu()
+        mh = len(items) * MENU_ROW_H + 8
+        mx = 24
+        my = HEIGHT - SETTINGS_BTN_H - 24 - mh - 6   # above the button
+        menu = QGraphicsRectItem(mx, my, MENU_W, mh)
+        menu.setBrush(QBrush(MENU_BG))
+        menu.setPen(QPen(MENU_EDGE, 1))
+        menu.setZValue(60)
+        self.addItem(menu)
+        self.menu = menu
+        self._menu_items = [menu]
+        self._menu_rows = []
+        for i, (key, label) in enumerate(items):
+            t = QGraphicsSimpleTextItem(label)
+            t.setFont(mono_font(12))
+            t.setBrush(QBrush(MENU_TXT))
+            t.setPos(mx + 10, my + 4 + i * MENU_ROW_H)
+            t.setZValue(61)
+            self.addItem(t)
+            self._menu_items.append(t)
+            self._menu_rows.append(
+                (key, QRectF(mx, my + i * MENU_ROW_H, MENU_W, MENU_ROW_H)))
+
+    def _close_menu(self):
+        for it in self._menu_items:
+            # clear() may already have removed them; skip stragglers
+            if it.scene() is self:
+                self.removeItem(it)
+        self._menu_items = []
+        self._menu_rows = []
+        self.menu = None
+
+    def _dispatch(self, key):
+        if key.startswith("res:"):
+            _, w, h = key.split(":")
+            self._close_menu()
+            if self.on_resolution:
+                self.on_resolution(int(w), int(h))
+
+    def mousePressEvent(self, event):
+        if self.menu is not None:
+            for key, r in self._menu_rows:
+                if r.contains(event.scenePos()):
+                    self._dispatch(key)
+                    event.accept()
+                    return
+            self._close_menu()
+            event.accept()
+            return
+        super().mousePressEvent(event)
 
     # -- api for tests ----------------------------------------------------
     def snap(self, name):
@@ -780,8 +897,9 @@ class LoginScene(QGraphicsScene):
         bg = QGraphicsRectItem(0, 0, WIDTH, HEIGHT)
         bg.setBrush(QBrush(QColor("#010402")))
         self.addItem(bg)
-        y = 120
-        draw_label(self, "TERMINUS TERMINAL LOGIN", WIDTH / 2 - 200, y, 20, TYPE_GREEN)
+        y = 160
+        head = draw_label(self, "TERMINUS TERMINAL LOGIN", 0, y, 20, TYPE_GREEN)
+        head.setPos(WIDTH / 2 - head.boundingRect().width() / 2, y)
         y += 60
         draw_label(self, ">", 140, y, 13, GHOST_DIM)
         if self.state == STATE_USERNAME:
@@ -816,8 +934,9 @@ class LoginScene(QGraphicsScene):
                                WIDTH / 2 - 170, HEIGHT / 2 - 60, 30, TYPE_GREEN)
             grant.setPos(WIDTH / 2 - grant.boundingRect().width() / 2,
                          HEIGHT / 2 - 60)
-            draw_label(self, "welcome, %s — uplink established" % self.username,
-                       WIDTH / 2 - 150, HEIGHT / 2, 13, GHOST_DIM)
+            wl = draw_label(self, "welcome, %s — uplink established"
+                            % self.username, 0, HEIGHT / 2, 13, GHOST_DIM)
+            wl.setPos(WIDTH / 2 - wl.boundingRect().width() / 2, HEIGHT / 2)
         self._add_crt()
 
     # -- CRT effect (feature 1) -------------------------------------------
@@ -1007,9 +1126,12 @@ class Lair:
         self.store = store
         self.screenshot_dir = screenshot_dir
         self.on_login = on_login
+        self.on_resolution = None      # set by terminus_gui (window resize)
         self.view = QGraphicsView()
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.view.setFrameShape(QFrame.NoFrame)   # exact canvas fill: no 1px
+        # view frame eating into the fit scale at the default window size
         self.view.setRenderHints(QPainter.Antialiasing
                                  | QPainter.TextAntialiasing)
         self.view.setOptimizationFlag(
@@ -1020,6 +1142,7 @@ class Lair:
         self.room = RoomScene(store, screenshot_dir)
         self.login = LoginScene(store, screenshot_dir)
         self.room.on_interact = self.open_login
+        self.room.on_resolution = self._room_resolution
         self.login.on_success = self._granted_shown
         self.timer = None
         self._access_timer = None
@@ -1036,6 +1159,8 @@ class Lair:
             self.timer.timeout.connect(self.room.tick)
         self.timer.start(self.room.TICK_MS)
         self.view.show()
+        self._fit()   # after show(): fit against the realized viewport size
+        # (pre-show the viewport may not be laid out yet on some platforms)
 
     def _fit(self):
         vw = self.view.viewport().width() or WIDTH
@@ -1052,10 +1177,16 @@ class Lair:
         if self.timer is not None:
             self.timer.stop()
         self.room.release_all()
+        self.room._close_menu()   # never carry an open menu into login
         self.login.start()
         self.login.start_crt()
         self.view.setScene(self.login)
         self.login.blink = True
+
+    def _room_resolution(self, w, h):
+        """RoomScene -> Lair bridge: forward to the shell-wide callback."""
+        if self.on_resolution:
+            self.on_resolution(w, h)
 
     def login_snap(self, name):
         self.login.blink = True
@@ -1219,6 +1350,35 @@ def run_lair_selftest(store, screenshot_dir=None, shots=None):
                      lair.room.player.pixmap().height()
                      ).intersects(DESK_RECT))
 
+    # 6. pre-login settings button: present after Lair.start() rebuilds the
+    #    room, dispatch fires on_resolution, toggle opens/closes the menu.
+    lair2 = Lair(live, screenshot_dir)
+    lair2.start(username="newbie")
+    btn = lair2.room.settings_button
+    check("lair settings button present after Lair.start()",
+          btn is not None and btn.scene() is lair2.room
+          and 0 <= btn.sceneBoundingRect().right() <= WIDTH
+          and 0 <= btn.sceneBoundingRect().bottom() <= HEIGHT)
+    check("lair Lair wires room.on_resolution -> shell callback",
+          lair2.room.on_resolution is not None)
+    fired_res = {}
+    lair2.on_resolution = lambda w, h: fired_res.update(wh=(w, h))
+    lair2.room.open_settings()
+    keys = [k for k, _r in lair2.room._menu_rows]
+    check("lair settings menu lists the seven resolutions",
+          keys == ["res:800:500", "res:960:600", "res:1200:800",
+                   "res:1440:900", "res:1680:1050", "res:1920:1080",
+                   "res:2560:1440"])
+    lair2.room._dispatch("res:1440:900")
+    check("lair picking a resolution fires on_resolution(1440, 900)",
+          fired_res.get("wh") == (1440, 900)
+          and not lair2.room._menu_rows)
+    tgl = getattr(btn, "on_click", None) or lair2.room.toggle_settings
+    tgl()
+    check("lair settings toggle opens the menu", bool(lair2.room._menu_rows))
+    tgl()
+    check("lair second toggle closes the menu", not lair2.room._menu_rows)
+
     if screenshot_dir:
         # login overlay frames (typed username + password with cursor)
         lg = Lair(live, screenshot_dir)
@@ -1239,6 +1399,7 @@ def run_lair_selftest(store, screenshot_dir=None, shots=None):
     print("LAIR: new user -> create path (confirm + password twice + mismatch retry)")
     print("LAIR: restart persistence -> stats restored from re-opened store")
     print("LAIR: scripted room walk + desk collision + hint check OK")
+    print("LAIR: pre-login settings button + resolution dispatch checked")
     for line in out:
         print("  lair check ok: %s" % line)
     if screenshot_dir and shots:

@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 """
-terminus_gui.py — TERMINUS 3D terminal-lure edition.
+terminus_gui.py — TERMINUS terminal-lure edition.
 
 PySide6 / Qt6. All game logic lives in terminus.py, so this GUI and
 terminus_cli.py share one code path and cannot drift.
 
-The "3D" is a QGraphicsView with a projective perspective transform: question
-panels are QGraphicsRectItems drawn in a scene, tilted and slowly rotated in
-3D space, with a mouse-driven parallax so panels shift as the pointer moves.
-Panels are fully interactive (hover + click), never decorative. A phosphor
-green CRT scanline overlay sits on top as an equivalent post-effect.
+Screens are flat and static: question panels are QGraphicsRectItems drawn in
+a QGraphicsScene inside a QGraphicsView, sitting perfectly still — no
+rotation, no perspective tilt, no parallax. The view's only transform is the
+fit-scale letterbox that maps the fixed 1920x1080 scene into the current
+viewport. Panels are fully interactive (hover + click), never decorative. A
+phosphor green CRT scanline overlay sits on top as an equivalent post-effect.
 
 Screens:
     - boot sequence   each game's kernel "loads" with its real bank count,
                       ending in ACCESS GRANTED
-    - question        panels rotating in 3D, one per option, click to answer
+    - question        static flat panels, one per option, click to answer
     - feedback        ACCESS GRANTED (green) / TRACE DETECTED (red) flash
     - breach bar      a streak progress bar under the question
     - achievements    ASCII badges rendered from achievements.py
@@ -46,8 +47,9 @@ import desktop
 from PySide6.QtCore import Qt, QTimer, QRectF
 from PySide6.QtGui import (QColor, QFont, QFontDatabase, QPainter, QPen,
                            QBrush, QPixmap, QTransform, QLinearGradient)
-from PySide6.QtWidgets import (QApplication, QGraphicsView, QGraphicsScene,
-                               QGraphicsRectItem, QGraphicsSimpleTextItem,
+from PySide6.QtWidgets import (QApplication, QFrame, QGraphicsView,
+                               QGraphicsScene, QGraphicsRectItem,
+                               QGraphicsSimpleTextItem,
                                QGraphicsItem, QGraphicsTextItem)
 
 # Phosphor-green CRT palette.
@@ -58,8 +60,8 @@ BG = QColor("#010503")
 RED = QColor("#ff5544")
 AMBER = QColor("#ffb454")
 
-WIDTH = 1200
-HEIGHT = 800
+WIDTH = 1920
+HEIGHT = 1080
 
 SETTINGS_FILE = os.path.join(tb.default_data_dir(), "settings.json")
 
@@ -98,7 +100,7 @@ def mono_font(size):
 
 
 class Panel(QGraphicsRectItem):
-    """A selectable, clickable terminal panel in the 3D scene."""
+    """A selectable, clickable terminal panel in the scene."""
 
     def __init__(self, text, w=520, h=64, color=GREEN, key_label=""):
         super().__init__()
@@ -187,7 +189,8 @@ class Scene(QGraphicsScene):
 
 
 class TermView(QGraphicsView):
-    """QGraphicsView with a projective perspective transform + parallax."""
+    """QGraphicsView that letterboxes the fixed 1920x1080 scene, flat and
+    still: no rotation, no perspective, no parallax — only fit-scale."""
 
     def __init__(self, scene):
         super().__init__(scene)
@@ -197,57 +200,27 @@ class TermView(QGraphicsView):
         self.setBackgroundBrush(QBrush(BG))
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self._angle = 0.0
-        self._parallax_x = 0.0
-        self._parallax_y = 0.0
+        self.setFrameShape(QFrame.NoFrame)   # exact canvas fill: no 1px view
+        # frame eating into the fit scale at the default window size
 
-    def set_pose(self, angle, parallax_x=0.0, parallax_y=0.0):
-        self._angle = angle
-        self._parallax_x = parallax_x
-        self._parallax_y = parallax_y
+    def set_pose(self, angle=None, parallax_x=0.0, parallax_y=0.0):
+        """Pose-neutral no-op kept for compatibility: screens sit flat, so
+        any angle/parallax arguments are ignored and nothing moves."""
         self._apply()
 
     def _apply(self):
-        # A projective transform: rotate around Z, then tilt with perspective
-        # coefficients in the third column so panels recede like a 3D terminal.
-        # The rotation/tilt is applied about the scene center (so content stays
-        # in frame instead of swinging off the top-left origin), then the whole
-        # scene is scaled to fit the current viewport.
-        import math
-        rad = math.radians(self._angle)
-        c, s = math.cos(rad), math.sin(rad)
-        cx = WIDTH / 2.0
-        cy = HEIGHT / 2.0
-        # m13/m23 give a perspective shear; kept small so text never clips.
-        pose = QTransform(c, s, -0.0003, -s, c, -0.0002, 0, 0, 1)
+        # Flat letterbox: scale the fixed 1920x1080 scene to fit the current
+        # viewport and center it, so a non-16:9 resolution shows black bars.
+        # QTransform's * composes in reversed order (the right operand acts on
+        # the point first), so the point-space chain is: fit-scale -> offset.
         vw = self.viewport().width() or WIDTH
         vh = self.viewport().height() or HEIGHT
         scale = min(vw / float(WIDTH), vh / float(HEIGHT))
         ox = (vw - WIDTH * scale) / 2.0
         oy = (vh - HEIGHT * scale) / 2.0
-        # QTransform's * composes in reversed order (the right operand acts on
-        # the point first), so write the point-space chain back to front:
-        # parallax -> recenter -> pose -> uncenter -> fit-scale -> fit-offset.
-        t = (QTransform.fromTranslate(self._parallax_x, self._parallax_y)
-             * QTransform.fromTranslate(-cx, -cy)
-             * pose
-             * QTransform.fromTranslate(cx, cy)
-             * QTransform.fromScale(scale, scale)
+        t = (QTransform.fromScale(scale, scale)
              * QTransform.fromTranslate(ox, oy))
         self.setTransform(t)
-
-    def mouseMoveEvent(self, event):
-        # Parallax: panels shift with the pointer.
-        cx = WIDTH / 2.0
-        cy = HEIGHT / 2.0
-        self._parallax_x = (event.position().x() - cx) * 0.06
-        self._parallax_y = (event.position().y() - cy) * 0.04
-        self._apply()
-        super().mouseMoveEvent(event)
-
-    def rotate_step(self):
-        self.set_pose((self._angle + 1.5) % 360,
-                      self._parallax_x, self._parallax_y)
 
     def keyPressEvent(self, event):
         # Route keyboard to the scene's optional key handler (drill text
@@ -369,8 +342,8 @@ class Game:
         for i, (game, name, code) in enumerate(games):
             count = sum(1 for q in self.bundle["questions"] if q["game"] == game)
             self._clear()
-            draw_title(self.scene, "TERMINUS BOOT", 60, GREEN, 26)
-            draw_line(self.scene, "loading kernels...", 110, GREEN_DIM, 12)
+            draw_title(self.scene, "TERMINUS BOOT", 80, GREEN, 26)
+            draw_line(self.scene, "loading kernels...", 150, GREEN_DIM, 12)
             for j, (g2, n2, c2) in enumerate(games):
                 mark = "[ loaded ]" if j < i else "[        ]"
                 color = GREEN if j < i else GREEN_DIM
@@ -378,17 +351,17 @@ class Game:
                     mark = "[ loading ]"
                     color = AMBER
                 draw_line(self.scene, "%-6s %-10s %-8s %s" % (g2.upper(), n2, c2, mark),
-                          150 + j * 44, color, 13)
+                          200 + j * 60, color, 13)
             draw_line(self.scene, "bank: %d questions for %s" % (count, name),
-                      350, GREEN, 13)
+                      470, GREEN, 13)
             self.view.set_pose(6 * i)
             self.snap("01-boot-%d-%s.png" % (i, game))
         self._clear()
-        draw_title(self.scene, "TERMINUS", 300, GREEN, 40)
-        draw_line(self.scene, "ACCESS GRANTED", 370, GREEN, 22)
+        draw_title(self.scene, "TERMINUS", 405, GREEN, 40)
+        draw_line(self.scene, "ACCESS GRANTED", 500, GREEN, 22)
         draw_line(self.scene, "a+1=%d  a+2=%d  net=%d  sec=%d"
                   % tuple(sum(1 for q in self.bundle["questions"]
-                              if q["game"] == g) for g in tb.GAMES), 420, GREEN_DIM, 13)
+                              if q["game"] == g) for g in tb.GAMES), 570, GREEN_DIM, 13)
         self.view.set_pose(0)
         self.snap("01-boot-access-granted.png")
 
@@ -396,14 +369,14 @@ class Game:
     def show_question(self, q):
         self._clear()
         self.current = q
-        draw_title(self.scene, self.mode_title, 30, GREEN, 18)
+        draw_title(self.scene, self.mode_title, 40, GREEN, 18)
         draw_line(self.scene, "Q%d/%d  [%s]  %s"
                   % (self.q_index + 1, len(self.questions),
-                     tb.GAME_TAGS[q["game"]], q["difficulty"]), 70, GREEN_DIM, 11)
+                     tb.GAME_TAGS[q["game"]], q["difficulty"]), 95, GREEN_DIM, 11)
         if self.mode == "breach":
             self._countdown_item = draw_line(
                 self.scene, "TIME LEFT %d:%02d"
-                % divmod(self._breach_remaining, 60), 96, AMBER, 13)
+                % divmod(self._breach_remaining, 60), 130, AMBER, 13)
         else:
             self._countdown_item = None
         # question text as a wrapped title
@@ -419,9 +392,9 @@ class Game:
         if cur:
             lines.append(cur)
         for n, line in enumerate(lines):
-            draw_line(self.scene, line, 120 + n * 26, QColor("#d0ffd8"), 13)
+            draw_line(self.scene, line, 160 + n * 35, QColor("#d0ffd8"), 13)
 
-        # option panels, arranged in a slight arc for the 3D feel
+        # option panels, one per answer choice
         keys = "abcd"
         opts = list(q["options"])
         order = list(range(len(opts)))
@@ -431,7 +404,7 @@ class Game:
             p = Panel(opts[oi], w=520, h=56, key_label=k.upper())
             if oi == q["answer"]:
                 self._correct_key = k
-            p.setPos(WIDTH / 2 - 260, 250 + order.index(oi) * 68)
+            p.setPos(WIDTH / 2 - 260, 340 + order.index(oi) * 92)
             self.scene.addItem(p)
             self.panels.append((k, p))
 
@@ -490,11 +463,11 @@ class Game:
         self._clear()
         label = "ACCESS GRANTED" if ok else "TRACE DETECTED"
         color = GREEN if ok else RED
-        draw_title(self.scene, label, 340, color, 36)
+        draw_title(self.scene, label, 460, color, 36)
         correct_text = self.current["answer_text"]
-        draw_line(self.scene, "answer: %s" % correct_text, 420, GREEN_DIM, 13)
+        draw_line(self.scene, "answer: %s" % correct_text, 570, GREEN_DIM, 13)
         if not ok:
-            draw_line(self.scene, "your breach was logged", 450, RED, 12)
+            draw_line(self.scene, "your breach was logged", 610, RED, 12)
         self.overlay = ScanlineOverlay(WIDTH, HEIGHT)
         self.scene.addItem(self.overlay)
         self.snap("03-%s.png" % ("granted" if ok else "detected"))
@@ -502,8 +475,8 @@ class Game:
     # ---- achievements screen ----
     def show_achievements(self):
         self._clear()
-        draw_title(self.scene, "ACHIEVEMENTS", 30, GREEN, 22)
-        y = 90
+        draw_title(self.scene, "ACHIEVEMENTS", 40, GREEN, 22)
+        y = 120
         for a in ach.ACHIEVEMENTS:
             earned = a["id"] in self.stats["achievements"]
             color = GREEN if earned else GREEN_DIM
@@ -620,14 +593,14 @@ class Game:
     # -- game picker -----------------------------------------------------
     def _show_game_picker(self, title):
         self._clear()
-        draw_title(self.scene, title, 60, GREEN, 24)
-        draw_line(self.scene, "select a target cert:", 130, GREEN_DIM, 13)
+        draw_title(self.scene, title, 80, GREEN, 24)
+        draw_line(self.scene, "select a target cert:", 175, GREEN_DIM, 13)
         self._pick_state = "game"
         self._game_panels = []
         for i, (name, gkey) in enumerate(tb.GAME_CHOICES):
             p = Panel("%-24s %s" % (name, tb.GAME_TAGS[gkey]), w=520, h=56,
                       key_label=str(i + 1))
-            p.setPos(WIDTH / 2 - 260, 200 + i * 68)
+            p.setPos(WIDTH / 2 - 260, 270 + i * 92)
             self.scene.addItem(p)
             self._game_panels.append((gkey, p))
         self.overlay = ScanlineOverlay(WIDTH, HEIGHT)
@@ -679,9 +652,9 @@ class Game:
         self.q_index = 0
         if not qs:
             self._clear()
-            draw_title(self.scene, "RECOVER LOG", 60, GREEN, 24)
+            draw_title(self.scene, "RECOVER LOG", 80, GREEN, 24)
             draw_line(self.scene, "nothing to recover - no missed questions yet",
-                      200, GREEN_DIM, 13)
+                      270, GREEN_DIM, 13)
             self.overlay = ScanlineOverlay(WIDTH, HEIGHT)
             self.scene.addItem(self.overlay)
             self.snap("07-recover-empty.png")
@@ -716,15 +689,15 @@ class Game:
     def _redraw_drill(self):
         item = self._drill_current
         self._clear()
-        draw_title(self.scene, self.mode_title, 40, GREEN, 22)
+        draw_title(self.scene, self.mode_title, 55, GREEN, 22)
         draw_line(self.scene, "%d/%d  [%s]"
                   % (self._drill_index + 1, len(self._drill_pool),
-                     tb.direction_label(item["direction"])), 90, GREEN_DIM, 11)
-        y = 150
+                     tb.direction_label(item["direction"])), 120, GREEN_DIM, 11)
+        y = 200
         for ln in self._wrap(item["prompt"], 64):
             draw_line(self.scene, ln, y, QColor("#d0ffd8"), 13)
-            y += 26
-        y += 14
+            y += 35
+        y += 19
         draw_line(self.scene, ">", y, GREEN_DIM, 13, x=140)
         shown = self._buffer + "\u2588"
         draw_line(self.scene, shown, y, GREEN, 13, x=170)
@@ -777,11 +750,11 @@ class Game:
     def _show_player_file(self):
         self.mode = "player"
         self._clear()
-        draw_title(self.scene, "PLAYER FILE", 30, GREEN, 22)
+        draw_title(self.scene, "PLAYER FILE", 40, GREEN, 22)
         lt = self.stats["lifetime"]
         tot, corr = lt["total"], lt["correct"]
         acc = (100.0 * corr / tot) if tot else 0.0
-        y = 90
+        y = 120
         for r in ("lifetime accuracy  : %d/%d  (%.1f%%)" % (corr, tot, acc),
                   "current streak    : %d" % self.stats["current_streak"],
                   "best streak       : %d" % self.stats["best_streak"],
@@ -831,11 +804,11 @@ class Game:
         self._clear()
         total = len(self._round_results)
         score = sum(1 for _, ok in self._round_results if ok)
-        draw_title(self.scene, "FULL BREACH RESULTS", 60, GREEN, 24)
+        draw_title(self.scene, "FULL BREACH RESULTS", 80, GREEN, 24)
         draw_line(self.scene, "score: %d/%d  (%.0f%%)"
                   % (score, total, 100.0 * score / total if total else 0.0),
-                  180, GREEN, 16)
-        y = 240
+                  245, GREEN, 16)
+        y = 325
         for q, ok in self._round_results:
             if ok:
                 continue
@@ -998,7 +971,7 @@ def run_desktop_selftest(bundle, screenshot_dir=None, shots=None):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="TERMINUS 3D terminal-lure quiz")
+    ap = argparse.ArgumentParser(description="TERMINUS terminal-lure quiz")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--screenshot", default=None, metavar="DIR")
     ap.add_argument("--size", default=None, metavar="WxH",
@@ -1074,7 +1047,7 @@ def main(argv=None):
 
     shell = lair.Lair(store, args.screenshot, on_login=enter_desktop)
 
-    # black letterbox background so a non-3:2 resolution shows black bars
+    # black letterbox background so a non-16:9 resolution shows black bars
     # instead of white when the fixed scene is fit-scaled.
     shell.view.setBackgroundBrush(QBrush(QColor("#000000")))
     game.view.setBackgroundBrush(QBrush(QColor("#000000")))
@@ -1086,6 +1059,10 @@ def main(argv=None):
         save_settings({"resolution": [w, h]})
 
     desk.on_resolution = apply_resolution
+    # pre-login: the room's SETTINGS button routes through the shell so a
+    # resolution picked before login resizes + persists exactly like the
+    # desktop hub's menu (same closure, same settings.json write).
+    shell.on_resolution = apply_resolution
 
     if args.size:
         w, h = (int(x) for x in args.size.lower().split("x"))
@@ -1095,11 +1072,6 @@ def main(argv=None):
         if saved:
             apply_resolution(saved[0], saved[1])
     shell.start()
-
-    # animate rotation
-    timer = QTimer()
-    timer.timeout.connect(game.view.rotate_step)
-    timer.start(40)
 
     # NOTE: do NOT show game.view here. The Lair shell is the single visible
     # window until login; enter_game() shows the game view and hides the shell.

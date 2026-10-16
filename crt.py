@@ -18,7 +18,7 @@ Pure PySide6, no new dependencies. Two reusable pieces:
                     and "TERMINUS" molded on the lower bezel. Crisp, no
                     smoothing. Content sits inside the aperture.
 
-Coordinate model: the QGraphicsScene stays 1200x800 = the full monitor. The
+Coordinate model: the QGraphicsScene stays 1920x1080 = the full monitor. The
 outer BEZEL-pixel band is plastic; the inner rectangle is the screen aperture
 where content + CRTOverlay render. BEZEL is exported so callers can inset
 their own layout.

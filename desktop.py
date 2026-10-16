@@ -25,14 +25,14 @@ import random
 from PySide6.QtCore import Qt, QRectF, QTimer
 from PySide6.QtGui import (QBrush, QColor, QFontDatabase, QImage, QPainter,
                            QPen, QPixmap)
-from PySide6.QtWidgets import (QApplication, QGraphicsPixmapItem,
+from PySide6.QtWidgets import (QApplication, QFrame, QGraphicsPixmapItem,
                                QGraphicsRectItem, QGraphicsScene,
                                QGraphicsSimpleTextItem, QGraphicsView)
 
 import crt
 
-WIDTH = 1200
-HEIGHT = 800
+WIDTH = 1920
+HEIGHT = 1080
 BEZEL = crt.BEZEL
 
 NEON = QColor("#00ff66")
@@ -66,6 +66,7 @@ RESOLUTIONS = [
     ("1440 x 900", 1440, 900),
     ("1680 x 1050", 1680, 1050),
     ("1920 x 1080", 1920, 1080),
+    ("2560 x 1440", 2560, 1440),
 ]
 
 
@@ -329,7 +330,12 @@ class DesktopScene(QGraphicsScene):
             col = i % COLS
             row = i // COLS
             icon = DesktopIcon(key, label, glyph_pixmap(key))
-            icon.setPos(BEZEL + 28 + col * 220, BEZEL + 26 + row * 160)
+            # spread the icon columns evenly across the bezel-to-bezel width
+            # (the old 220px pitch assumed the 1200px canvas and left the
+            # right half of a 1920px canvas empty)
+            slot = (WIDTH - 2 * BEZEL) / float(COLS)
+            ix = BEZEL + col * slot + (slot - ICON_W) / 2.0
+            icon.setPos(ix, BEZEL + 26 + row * 160)
             self.addItem(icon)
             self.icons.append(icon)
         self._select(0)
@@ -579,6 +585,8 @@ class Desktop:
         self.view = QGraphicsView()
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.view.setFrameShape(QFrame.NoFrame)   # exact canvas fill: no 1px
+        # view frame eating into the fit scale at the default window size
         self.view.setRenderHints(QPainter.Antialiasing
                                  | QPainter.TextAntialiasing)
         self.view.setRenderHint(QPainter.SmoothPixmapTransform, False)
@@ -601,9 +609,9 @@ class Desktop:
         self.scene.on_poweroff = self.on_poweroff
         self.scene.on_resolution = self.on_resolution
         self.view.setScene(self.scene)
-        self._fit()
-        self.scene.start()
         self.view.show()
+        self._fit()   # after show(): fit against the realized viewport size
+        self.scene.start()
 
     def hide(self):
         if self.scene is not None:
